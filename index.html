@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>물 한 방울 대탐험</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pond-deep:#062f2c; --pond:#0d5a4f; --pond-mid:#127c6b;
+    --aqua:#28c0a3; --aqua-soft:#8fe3d0; --light:#eaf7f2;
+    --sun:#ffd35c; --sun-deep:#f5a623; --paper:#f7f2e4; --ink:#0a2b28;
+    --pink:#ff8fab;
+    --disp:'Jua',system-ui,sans-serif; --hand:'Gaegu',cursive; --body:'Noto Sans KR',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--body);
+    background:radial-gradient(120% 120% at 50% -10%, #0f7566 0%, var(--pond) 42%, var(--pond-deep) 100%);
+    color:var(--light); overflow:hidden; -webkit-font-smoothing:antialiased;
+  }
+  body.shake{animation:shake .4s ease}
+  @keyframes shake{
+    0%,100%{transform:translate(0,0)}
+    20%{transform:translate(-6px,3px)}
+    40%{transform:translate(6px,-3px)}
+    60%{transform:translate(-4px,-2px)}
+    80%{transform:translate(4px,2px)}
+  }
+  #app{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+
+  .scene{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:4vh 5vw;
+    opacity:0;transform:translateY(18px) scale(.99);
+    pointer-events:none;transition:opacity .55s ease, transform .55s ease;
+  }
+  .scene.active{opacity:1;transform:none;pointer-events:auto}
+
+  .bubbles span{
+    position:absolute;bottom:-40px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), rgba(255,255,255,.05));
+    animation:rise linear infinite;
+  }
+  @keyframes rise{
+    from{transform:translateY(0) translateX(0);opacity:0}
+    10%{opacity:.7} to{transform:translateY(-108vh) translateX(30px);opacity:0}
+  }
+
+  h1.title{
+    font-family:var(--disp);font-size:clamp(2.4rem,7.2vw,6rem);line-height:1.05;color:#fff;
+    text-shadow:0 4px 0 rgba(0,0,0,.18),0 10px 30px rgba(0,0,0,.35);letter-spacing:.5px;
+  }
+  .title .hl{color:var(--sun)}
+  .pop-in{animation:popIn .6s cubic-bezier(.2,1.4,.4,1) both}
+  @keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+  .sub{font-family:var(--hand);font-size:clamp(1.2rem,3vw,2rem);color:var(--aqua-soft);margin-top:1.4vh}
+  .eyebrow{
+    font-family:var(--hand);font-size:clamp(1rem,2.3vw,1.5rem);color:var(--sun);letter-spacing:2px;
+    margin-bottom:1.6vh;display:inline-flex;align-items:center;gap:.5em;
+  }
+  .eyebrow::before,.eyebrow::after{content:"";width:34px;height:2px;background:var(--sun);opacity:.6;border-radius:2px}
+
+  .btn{
+    font-family:var(--disp);cursor:pointer;border:none;font-size:clamp(1.2rem,2.6vw,1.8rem);
+    color:var(--pond-deep);background:var(--sun);padding:.7em 1.6em;border-radius:999px;
+    box-shadow:0 6px 0 var(--sun-deep),0 14px 30px rgba(0,0,0,.3);
+    transition:transform .12s ease, box-shadow .12s ease;margin-top:clamp(2vh,4vh,5vh);
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 var(--sun-deep),0 18px 38px rgba(0,0,0,.35)}
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--sun-deep),0 6px 14px rgba(0,0,0,.3)}
+  .btn.wobble{animation:wob 1.6s ease-in-out infinite}
+  @keyframes wob{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+
+  /* cup */
+  .cup{width:clamp(150px,26vw,240px);height:auto;filter:drop-shadow(0 14px 24px rgba(0,0,0,.35))}
+  .float{animation:bob 3.4s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-10px)}}
+
+  /* guess */
+  .q{font-family:var(--disp);font-size:clamp(1.5rem,4.2vw,3rem);color:#fff;line-height:1.3;max-width:16ch}
+  .q .cup-inline{color:var(--sun)}
+  .choices{display:flex;gap:clamp(12px,2.5vw,28px);flex-wrap:wrap;justify-content:center;margin-top:4vh}
+  .choice{
+    font-family:var(--body);font-weight:700;cursor:pointer;
+    background:rgba(255,255,255,.08);color:var(--light);border:2px solid rgba(255,255,255,.22);
+    border-radius:20px;padding:clamp(1rem,2.4vw,1.6rem) clamp(1.4rem,3vw,2.2rem);
+    font-size:clamp(1rem,2.2vw,1.5rem);min-width:clamp(150px,22vw,220px);
+    transition:transform .14s ease, background .2s ease, border-color .2s ease;
+    display:flex;flex-direction:column;align-items:center;gap:.4em;
+  }
+  .choice .emoji{font-size:clamp(1.8rem,4vw,2.6rem);transition:transform .2s}
+  .choice:hover{transform:translateY(-4px);background:rgba(255,255,255,.15);border-color:var(--aqua)}
+  .choice:hover .emoji{transform:scale(1.2) rotate(-8deg)}
+  .choice.picked{background:var(--aqua);color:var(--pond-deep);border-color:#fff;transform:translateY(-4px) scale(1.05)}
+  .choice.dim{opacity:.35}
+
+  .countbox{margin-top:3.5vh;opacity:0;transition:opacity .4s;min-height:1.2em}
+  .countbox.show{opacity:1}
+  .bignum{font-family:var(--disp);font-size:clamp(3rem,11vw,8rem);color:var(--sun);
+    text-shadow:0 5px 0 rgba(0,0,0,.2),0 14px 34px rgba(0,0,0,.35);line-height:1;transition:font-size .3s}
+  .bignum.overflow{font-size:clamp(2.2rem,7.5vw,5rem);animation:popIn .5s cubic-bezier(.2,1.4,.4,1)}
+  .count-label{font-family:var(--hand);font-size:clamp(1.3rem,3.4vw,2.4rem);color:#fff;margin-top:.4vh}
+
+  /* zoom lens */
+  .lens-stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:2.2vh}
+  .lens{
+    position:relative;width:min(56vh,62vw);aspect-ratio:1/1;border-radius:50%;overflow:hidden;
+    background:radial-gradient(circle at 42% 38%, #1a8a76 0%, #0c5c50 55%, #063f38 100%);
+    box-shadow:0 0 0 10px rgba(255,255,255,.08),0 0 0 22px rgba(255,255,255,.05),
+      inset 0 0 60px rgba(0,0,0,.5),0 24px 60px rgba(0,0,0,.45);
+  }
+  .lens::after{content:"";position:absolute;inset:0;border-radius:50%;
+    background:radial-gradient(circle at 32% 26%, rgba(255,255,255,.35), transparent 40%);pointer-events:none}
+  .field{position:absolute;inset:0;transition:filter .7s ease, transform .7s ease}
+  .creature{position:absolute;opacity:0;transition:opacity .8s ease, width .55s ease, height .55s ease;cursor:pointer}
+  .creature.on{opacity:.95}
+  .creature .eyes{opacity:0;transition:opacity .6s ease}
+  .creature.faces .eyes{opacity:1}
+  .creature.react{animation:react .5s ease}
+  @keyframes react{0%,100%{transform:scale(1)}30%{transform:scale(1.25) rotate(-8deg)}60%{transform:scale(1.1) rotate(6deg)}}
+  .drift1{animation:drift1 6s ease-in-out infinite}
+  .drift2{animation:drift2 8s ease-in-out infinite}
+  .drift3{animation:drift3 5s ease-in-out infinite}
+  @keyframes drift1{0%,100%{transform:translate(0,0) rotate(-6deg)}50%{transform:translate(8%,-6%) rotate(8deg)}}
+  @keyframes drift2{0%,100%{transform:translate(0,0) rotate(3deg)}25%{transform:translate(-6%,4%) rotate(-4deg)}75%{transform:translate(5%,-3%) rotate(5deg)}}
+  @keyframes drift3{0%,100%{transform:translate(0,0)}50%{transform:translate(6%,9%)}}
+  .pop-hi{position:absolute;font-family:var(--disp);color:var(--sun);font-size:2rem;pointer-events:none;
+    animation:popHi .7s ease forwards}
+  @keyframes popHi{from{transform:translateY(0) scale(.6);opacity:0}30%{opacity:1}to{transform:translateY(-46px) scale(1.2);opacity:0}}
+
+  .mag-badge{
+    font-family:var(--disp);font-size:clamp(1.1rem,2.6vw,1.8rem);background:rgba(0,0,0,.35);
+    border:2px solid var(--aqua);color:var(--sun);padding:.35em 1.1em;border-radius:999px;
+    display:inline-flex;align-items:center;gap:.5em;
+  }
+  .mag-badge.bump{animation:bump .4s cubic-bezier(.2,1.6,.4,1)}
+  @keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.35)}100%{transform:scale(1)}}
+  .mag-badge .tool{color:var(--light);font-size:.8em}
+  .zoom-hint{font-family:var(--hand);color:var(--aqua-soft);font-size:clamp(1rem,2.4vw,1.5rem);min-height:1.4em}
+  .creature svg{width:100%;height:100%;display:block;overflow:visible}
+  .creature.para{aspect-ratio:200/130}
+  .creature.euglena{aspect-ratio:80/130}
+  .flagellum{transform-box:fill-box;transform-origin:bottom center;animation:flag 1.4s ease-in-out infinite}
+  @keyframes flag{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
+  .creature.haecam{left:-6%;width:112%}
+  .creature.faces .spiral{opacity:.85}
+  .scalebar{position:absolute;left:50%;bottom:8%;transform:translateX(-50%);z-index:3;
+    display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none;transition:width .5s ease}
+  .sbline{position:relative;width:100%;border-top:4px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.5)}
+  .sbline::before,.sbline::after{content:"";position:absolute;top:-9px;width:4px;height:18px;background:#fff;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.5)}
+  .sbline::before{left:0}.sbline::after{right:0}
+  .sblabel{font-family:var(--body);font-weight:700;font-size:clamp(.85rem,1.9vw,1.15rem);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+  .size-note{font-family:var(--body);font-size:clamp(.8rem,1.9vw,1.05rem);color:var(--aqua-soft);margin-top:.6vh;max-width:42ch;line-height:1.4}
+  .size-note b{color:var(--sun)}
+
+  /* mystery */
+  .myst-row{display:flex;gap:clamp(20px,5vw,64px);flex-wrap:wrap;justify-content:center;margin:3vh 0}
+  .myst{
+    width:clamp(140px,20vw,220px);aspect-ratio:1/1;border-radius:24px;
+    background:radial-gradient(circle at 40% 35%, #16846f, #0a4a41);
+    box-shadow:inset 0 0 40px rgba(0,0,0,.45),0 16px 34px rgba(0,0,0,.35);
+    display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+    animation:bob 3s ease-in-out infinite;
+  }
+  .myst:nth-child(2){animation-delay:.6s}
+  .myst .qmark{font-family:var(--disp);font-size:clamp(4rem,10vw,7rem);color:var(--sun);
+    text-shadow:0 4px 0 rgba(0,0,0,.25);animation:pulse 1.4s ease-in-out infinite;z-index:2}
+  @keyframes pulse{50%{transform:scale(1.15)}}
+  .myst svg{position:absolute;inset:0;width:100%;height:100%;opacity:.4;filter:blur(3px)}
+
+  /* problem */
+  .problem-card{
+    background:var(--paper);color:var(--ink);border-radius:26px;
+    padding:clamp(2.2rem,5vw,3.4rem) clamp(2rem,6vw,4.2rem);
+    box-shadow:0 22px 50px rgba(0,0,0,.4);max-width:90vw;border:6px solid var(--sun);
+  }
+  .problem-label{font-family:var(--hand);color:var(--sun-deep);font-size:clamp(1.1rem,2.6vw,1.6rem);letter-spacing:1px}
+  .problem-text{font-family:var(--disp);font-size:clamp(1.8rem,5vw,3.4rem);line-height:1.3;margin-top:1vh}
+  .problem-text .u{border-bottom:6px solid var(--aqua);padding-bottom:2px}
+
+  /* confetti + dots + nav */
+  .confetti{position:fixed;top:-20px;width:12px;height:16px;z-index:50;pointer-events:none;border-radius:2px}
+  .dots{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:20}
+  .dots i{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.25);transition:.3s}
+  .dots i.on{background:var(--sun);transform:scale(1.25)}
+  .nav{position:fixed;bottom:16px;right:22px;display:flex;gap:12px;z-index:20}
+  .nav button{
+    font-family:var(--body);font-weight:700;cursor:pointer;background:rgba(255,255,255,.12);color:#fff;
+    border:2px solid rgba(255,255,255,.3);border-radius:12px;padding:.5em 1em;font-size:1rem;transition:.15s}
+  .nav button:hover{background:rgba(255,255,255,.22)}
+  .nav button:disabled{opacity:.3;cursor:default}
+  .topbar{position:fixed;top:16px;right:20px;z-index:20;display:flex;gap:10px}
+  .icon-btn{cursor:pointer;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);
+    color:#fff;border-radius:12px;width:46px;height:46px;font-size:1.3rem;transition:.15s}
+  .icon-btn:hover{background:rgba(255,255,255,.24)}
+  .hint-key{position:fixed;bottom:20px;left:22px;z-index:20;font-family:var(--hand);
+    color:rgba(255,255,255,.5);font-size:.95rem}
+
+  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:opacity .2s ease !important}}
+</style>
+</head>
+<body>
+<div class="bubbles" id="bubbles"></div>
+
+<div id="app">
+
+  <!-- SCENE 1 -->
+  <section class="scene active" data-scene="0">
+    <div class="eyebrow">과학 탐구 도입</div>
+    <h1 class="title">선생님이 연못에서<br><span class="hl">물 한 컵</span>을 떠왔어요</h1>
+    <div class="float" style="margin:3vh 0 1vh">
+      <svg class="cup" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#bfeee4" stop-opacity=".35"/><stop offset="1" stop-color="#7fd6c2" stop-opacity=".15"/>
+          </linearGradient>
+          <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#3fbf9f"/><stop offset="1" stop-color="#127c6b"/>
+          </linearGradient>
+        </defs>
+        <path d="M40 30 L160 30 L146 200 Q145 210 132 210 L68 210 Q55 210 54 200 Z" fill="url(#glass)" stroke="#dff6ef" stroke-width="4"/>
+        <path d="M52 90 L148 90 L139 198 Q138 204 130 204 L70 204 Q62 204 61 198 Z" fill="url(#water)"/>
+        <ellipse cx="100" cy="90" rx="48" ry="8" fill="#5fd0b6" opacity=".8"/>
+        <circle cx="82" cy="140" r="4" fill="#dff6ef" opacity=".7"/><circle cx="115" cy="120" r="3" fill="#dff6ef" opacity=".6"/>
+        <circle cx="105" cy="165" r="5" fill="#dff6ef" opacity=".55"/>
+        <ellipse cx="40" cy="30" rx="20" ry="6" fill="#eafaf5"/><ellipse cx="160" cy="30" rx="20" ry="6" fill="#eafaf5"/>
+      </svg>
+    </div>
+    <p class="sub">깨끗해 보이는 이 물 속에… 뭐가 살고 있을까?</p>
+    <button class="btn wobble" data-next>탐험 시작 →</button>
+  </section>
+
+  <!-- SCENE 2 -->
+  <section class="scene" data-scene="1">
+    <div class="eyebrow">다 같이 맞혀봐요</div>
+    <p class="q">이 물 <span class="cup-inline">한 컵</span> 속에,<br>눈에 안 보이는 생물이<br>몇 마리나 살고 있을까요?</p>
+    <div class="choices" id="choices">
+      <button class="choice" data-guess="none"><span class="emoji">🚫</span>한 마리도<br>없어요</button>
+      <button class="choice" data-guess="few"><span class="emoji">🔟</span>열 마리<br>쯤이요</button>
+      <button class="choice" data-guess="many"><span class="emoji">✨</span>엄청<br>많아요!</button>
+    </div>
+    <div class="countbox" id="countbox">
+      <div class="bignum" id="bignum">0</div>
+      <div class="count-label" id="countLabel"></div>
+    </div>
+  </section>
+
+  <!-- SCENE 3 -->
+  <section class="scene" data-scene="2">
+    <div class="eyebrow">점점 크게 들여다보기</div>
+    <div class="lens-stage">
+      <div class="mag-badge" id="magBadge"><span class="tool" id="toolName">맨눈</span> · <span id="magText">1배</span> 🔍</div>
+      <div class="lens" id="lens">
+        <div class="field" id="field">
+          <!-- 해캄: 가늘고 긴 초록 실이 화면을 가로질러 뻗음 (굵기 약 0.03mm) -->
+          <div class="creature haecam drift2" id="c2" data-hi="살랑~" style="top:46%">
+            <svg viewBox="0 0 400 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="6" width="400" height="28" rx="12" fill="#3fae7a" stroke="#238a5c" stroke-width="2"/>
+              <g stroke="#1f7a4e" stroke-width="2" opacity=".55">
+                <line x1="44" y1="6" x2="44" y2="34"/><line x1="96" y1="6" x2="96" y2="34"/>
+                <line x1="148" y1="6" x2="148" y2="34"/><line x1="200" y1="6" x2="200" y2="34"/>
+                <line x1="252" y1="6" x2="252" y2="34"/><line x1="304" y1="6" x2="304" y2="34"/>
+                <line x1="356" y1="6" x2="356" y2="34"/>
+              </g>
+              <path class="spiral" d="M8 20 Q30 8 52 20 Q74 32 96 20 Q118 8 140 20 Q162 32 184 20 Q206 8 228 20 Q250 32 272 20 Q294 8 316 20 Q338 32 360 20 Q382 8 396 20" stroke="#0c5233" stroke-width="3" fill="none" opacity="0"/>
+              <g class="eyes">
+                <circle cx="338" cy="16" r="7" fill="#fff"/><circle cx="364" cy="16" r="7" fill="#fff"/>
+                <circle cx="339" cy="17" r="3" fill="#20303a"/><circle cx="365" cy="17" r="3" fill="#20303a"/>
+              </g>
+            </svg>
+          </div>
+          <!-- 짚신벌레: 약 0.2mm 단세포 (맨눈엔 점 → 확대하면 짚신 모양) -->
+          <div class="creature para drift1" id="c1" data-hi="꼬물!" style="left:30%;top:26%">
+            <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+              <g stroke="#e9dcc0" stroke-width="3" opacity=".8" stroke-linecap="round">
+                <line x1="30" y1="24" x2="24" y2="10"/><line x1="60" y1="16" x2="56" y2="2"/>
+                <line x1="100" y1="14" x2="100" y2="0"/><line x1="140" y1="16" x2="146" y2="2"/>
+                <line x1="30" y1="104" x2="24" y2="118"/><line x1="70" y1="112" x2="68" y2="126"/>
+                <line x1="120" y1="112" x2="124" y2="126"/><line x1="160" y1="104" x2="168" y2="116"/>
+              </g>
+              <path d="M40 64 C40 24 90 12 130 22 C175 34 185 74 150 100 C110 122 55 112 42 82 Z" fill="#d8c79c" stroke="#b8a271" stroke-width="3"/>
+              <ellipse cx="95" cy="64" rx="30" ry="16" fill="#c2ad7d" opacity=".5"/>
+              <g class="eyes">
+                <circle cx="112" cy="52" r="11" fill="#fff"/><circle cx="140" cy="54" r="11" fill="#fff"/>
+                <circle cx="115" cy="54" r="5" fill="#20303a"/><circle cx="143" cy="56" r="5" fill="#20303a"/>
+                <path d="M112 78 Q128 90 146 78" stroke="#7a5b32" stroke-width="4" fill="none" stroke-linecap="round"/>
+              </g>
+            </svg>
+          </div>
+          <!-- 유글레나: 방추형 몸에 편모로 헤엄치는 원생생물 -->
+          <div class="creature euglena drift3" id="c3" data-hi="반짝!" style="left:70%;top:14%">
+            <svg viewBox="0 0 80 130" xmlns="http://www.w3.org/2000/svg">
+              <path class="flagellum" d="M40 18 C44 6 30 2 37 -8 C41 -14 33 -18 41 -26" fill="none" stroke="#5a9e42" stroke-width="3.5" stroke-linecap="round"/>
+              <path d="M40 16 C58 16 68 34 64 62 C61 86 50 108 40 124 C30 108 19 86 16 62 C12 34 22 16 40 16 Z" fill="#8ec96b" stroke="#5a9e42" stroke-width="3"/>
+              <ellipse cx="33" cy="40" rx="9" ry="16" fill="#a9d98a" opacity=".55"/>
+              <g class="eyes">
+                <circle cx="32" cy="54" r="8" fill="#fff"/><circle cx="50" cy="54" r="8" fill="#fff"/>
+                <circle cx="33" cy="55" r="3.5" fill="#20303a"/><circle cx="51" cy="55" r="3.5" fill="#20303a"/>
+                <path d="M32 70 Q41 78 50 70" stroke="#2f6b2a" stroke-width="3" fill="none" stroke-linecap="round"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <p class="zoom-hint" id="zoomHint">🔍 <b>확대</b> 버튼을 누를 때마다 더 크게 보여요</p>
+    </div>
+    <button class="btn wobble" id="zoomBtn">더 확대하기 🔎</button>
+  </section>
+
+  <!-- SCENE 4 -->
+  <section class="scene" data-scene="3">
+    <div class="eyebrow">어라?!</div>
+    <h1 class="title">얘네들, <span class="hl">살아있어!</span></h1>
+    <div class="myst-row">
+      <div class="myst">
+        <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg"><path d="M40 64 C40 24 90 12 130 22 C175 34 185 74 150 100 C110 122 55 112 42 82 Z" fill="#d8c79c"/></svg>
+        <span class="qmark">?</span>
+      </div>
+      <div class="myst">
+        <svg viewBox="0 0 260 70" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="22" width="248" height="26" rx="13" fill="#3fae7a"/></svg>
+        <span class="qmark">?</span>
+      </div>
+    </div>
+    <p class="sub">하나는 <span style="color:var(--sun)">0.2mm</span> 남짓한 작은 점, 하나는 가늘고 긴 초록 실!<br>이 작은 생물들의 정체는 대체 뭘까? 동물일까, 식물일까?</p>
+    <button class="btn wobble" data-next>우리가 직접 밝혀보자! →</button>
+  </section>
+
+  <!-- SCENE 5 -->
+  <section class="scene" data-scene="4">
+    <div class="eyebrow">오늘의 학습 문제</div>
+    <div class="problem-card">
+      <div class="problem-label">◈ 함께 탐구할 문제</div>
+      <p class="problem-text"><span class="u">해캄</span>과 <span class="u">짚신벌레</span>를 관찰하고<br>특징과 사는 곳을 탐구해봅시다.</p>
+    </div>
+    <p class="sub" style="margin-top:3vh">맨눈 → 돋보기 → 현미경, 점점 크게 들여다보며 정체를 밝혀요!</p>
+  </section>
+
+</div>
+
+<div class="dots" id="dots"></div>
+<div class="topbar"><button class="icon-btn" id="soundBtn" title="소리 켜기/끄기">🔊</button></div>
+<div class="nav">
+  <button id="prevBtn">← 이전</button>
+  <button id="nextBtn">다음 →</button>
+</div>
+<div class="hint-key">← → 또는 스페이스로 넘기기</div>
+
+<script>
+(function(){
+  const scenes=[...document.querySelectorAll('.scene')];
+  const dotsWrap=document.getElementById('dots');
+  const prevBtn=document.getElementById('prevBtn');
+  const nextBtn=document.getElementById('nextBtn');
+  let idx=0;
+
+  /* ---------- sound (Web Audio, offline) ---------- */
+  let AC=null, soundOn=true;
+  const soundBtn=document.getElementById('soundBtn');
+  function ac(){ if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}} if(AC&&AC.state==='suspended')AC.resume(); return AC; }
+  function tone(freq,dur,type,vol){
+    if(!soundOn) return; const c=ac(); if(!c) return;
+    const o=c.createOscillator(), g=c.createGain();
+    o.type=type||'sine'; o.frequency.value=freq;
+    g.gain.value=0; o.connect(g); g.connect(c.destination);
+    const t=c.currentTime;
+    g.gain.linearRampToValueAtTime(vol||.18, t+.01);
+    g.gain.exponentialRampToValueAtTime(.0001, t+dur);
+    o.start(t); o.stop(t+dur+.02);
+  }
+  const sfx={
+    click:()=>tone(520,.12,'triangle',.15),
+    pop:(n=0)=>tone(420+n*120,.18,'sine',.2),
+    chime:()=>{tone(660,.18,'sine',.16);setTimeout(()=>tone(880,.22,'sine',.16),90);setTimeout(()=>tone(1175,.3,'sine',.16),190);},
+    tick:()=>tone(900,.05,'square',.06),
+    boop:()=>tone(300,.16,'triangle',.16)
+  };
+  soundBtn.addEventListener('click',()=>{
+    soundOn=!soundOn; soundBtn.textContent=soundOn?'🔊':'🔇'; if(soundOn){ac();sfx.click();}
+  });
+
+  /* ---------- confetti ---------- */
+  const COLORS=['#ffd35c','#28c0a3','#ff8fab','#8fe3d0','#f5a623','#fff'];
+  function confetti(count=70){
+    for(let i=0;i<count;i++){
+      const el=document.createElement('div');
+      el.className='confetti';
+      el.style.left=Math.random()*100+'vw';
+      el.style.background=COLORS[i%COLORS.length];
+      el.style.transform='rotate('+(Math.random()*360)+'deg)';
+      const dur=1.6+Math.random()*1.6, drift=(Math.random()*2-1)*140;
+      el.animate([
+        {transform:'translate(0,0) rotate(0deg)',opacity:1},
+        {transform:'translate('+drift+'px,'+(window.innerHeight+80)+'px) rotate('+(Math.random()*720)+'deg)',opacity:.9}
+      ],{duration:dur*1000,easing:'cubic-bezier(.2,.6,.4,1)'});
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(),dur*1000+50);
+    }
+  }
+
+  /* ---------- nav ---------- */
+  scenes.forEach((_,i)=>{const d=document.createElement('i');if(i===0)d.classList.add('on');dotsWrap.appendChild(d);});
+  const dots=[...dotsWrap.children];
+  function show(i){
+    i=Math.max(0,Math.min(scenes.length-1,i));
+    if(i===idx) return;
+    scenes[idx].classList.remove('active');
+    idx=i; scenes[idx].classList.add('active');
+    dots.forEach((d,n)=>d.classList.toggle('on',n===idx));
+    prevBtn.disabled=idx===0; nextBtn.disabled=idx===scenes.length-1;
+    sfx.boop();
+    onEnter(idx);
+  }
+  function next(){show(idx+1)}
+  function prev(){show(idx-1)}
+  document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>{sfx.click();next();}));
+  nextBtn.addEventListener('click',next);
+  prevBtn.addEventListener('click',prev);
+  window.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next();}
+    else if(e.key==='ArrowLeft'){prev();}
+  });
+  // resume audio on first interaction
+  window.addEventListener('pointerdown',()=>ac(),{once:true});
+
+  /* ---------- scene 2: guess + count-up ---------- */
+  const countbox=document.getElementById('countbox');
+  const bignum=document.getElementById('bignum');
+  const countLabel=document.getElementById('countLabel');
+  let guessed=false;
+  document.querySelectorAll('.choice').forEach(c=>{
+    c.addEventListener('click',()=>{
+      if(guessed) return; guessed=true;
+      sfx.click();
+      document.querySelectorAll('.choice').forEach(o=>{o.classList.remove('picked');o.classList.add('dim');});
+      c.classList.add('picked');c.classList.remove('dim');
+      countbox.classList.add('show');
+      countLabel.textContent='함께 세어볼까요?';
+      // number races upward, accelerating, then "gives up" — honest: too many to count
+      let v=0, inc=2, frames=0;
+      const race=()=>{
+        frames++;
+        inc=Math.round(inc*1.4)+3;   // accelerate
+        v+=inc;
+        bignum.textContent=v.toLocaleString();
+        sfx.tick();
+        if(frames<24){ requestAnimationFrame(()=>setTimeout(race,34)); }
+        else{
+          bignum.classList.add('overflow');
+          bignum.textContent='너무 많아요!';
+          countLabel.textContent='세다가 포기… 이 작은 한 방울에도 셀 수 없이 많아요 🫠';
+          sfx.chime(); confetti(100);
+        }
+      };
+      race();
+    });
+  });
+  function resetGuess(){
+    guessed=false; countbox.classList.remove('show');
+    bignum.classList.remove('overflow'); bignum.textContent='0'; countLabel.textContent='';
+    document.querySelectorAll('.choice').forEach(o=>{o.classList.remove('picked','dim');});
+  }
+
+  /* ---------- scene 3: zoom ---------- */
+  const levels=[
+    {tool:'맨눈',   mag:'1배',   blur:14, bar:'10 mm',  barFrac:.50,  paraW:1.4, dotW:.8,  haeH:5,  hint:'맨눈: 초록 실(해캄)은 보여도 짚신벌레는 거의 안 보여요'},
+    {tool:'돋보기', mag:'약 5배', blur:8,  bar:'1 mm',   barFrac:.22,  paraW:4,   dotW:2.4, haeH:8,  hint:'돋보기: 작은 점들이 떠다녀요 (짚신벌레는 아직 점!)'},
+    {tool:'현미경', mag:'100배',  blur:3,  bar:'0.5 mm', barFrac:.33,  paraW:13,  dotW:7,   haeH:13, hint:'짚신벌레(약 0.2mm)의 짚신 모양이 드러나요'},
+    {tool:'현미경', mag:'400배',  blur:0,  bar:'0.1 mm', barFrac:.20,  paraW:40,  dotW:20,  haeH:22, hint:'해캄의 나선 색소체, 짚신벌레 섬모까지! (클릭해봐요)'}
+  ];
+  let lv=0;
+  const field=document.getElementById('field');
+  const lens=document.getElementById('lens');
+  const magBadge=document.getElementById('magBadge');
+  const toolName=document.getElementById('toolName');
+  const magText=document.getElementById('magText');
+  const zoomHint=document.getElementById('zoomHint');
+  const zoomBtn=document.getElementById('zoomBtn');
+  const c1=document.getElementById('c1'), c2=document.getElementById('c2'), c3=document.getElementById('c3');
+  const creatures=[c1,c2,c3];
+
+  function applyLevel(){
+    const L=levels[lv];
+    toolName.textContent=L.tool; magText.textContent=L.mag;
+    field.style.filter='blur('+L.blur+'px)';
+    c1.style.width=L.paraW+'%';        // 짚신벌레: 0.2mm를 시야에 대한 실제 비율로
+    c3.style.width=L.dotW+'%';
+    c2.style.height=L.haeH+'%';        // 해캄: 가는 실 (화면을 가로지름)
+    zoomHint.innerHTML=L.hint;
+    c2.classList.add('on');            // 해캄 실뭉치는 맨눈에도 보임
+    c1.classList.toggle('on', lv>=1);  // 짚신벌레: 돋보기부터 점으로 등장
+    c3.classList.toggle('on', lv>=1);
+    const full=(lv>=levels.length-1);
+    creatures.forEach(c=>c.classList.toggle('faces', full));
+    zoomBtn.textContent= full ? '정체가 궁금해요! →' : '더 확대하기 🔎';
+  }
+  function zoomStep(){
+    sfx.click();
+    if(lv<levels.length-1){
+      lv++; applyLevel();
+      sfx.pop(lv); magBadge.classList.remove('bump'); void magBadge.offsetWidth; magBadge.classList.add('bump');
+      document.body.classList.remove('shake'); void document.body.offsetWidth; document.body.classList.add('shake');
+      if(lv===levels.length-1){ setTimeout(()=>{sfx.chime();confetti(50);},250); }
+    } else { next(); }
+  }
+  zoomBtn.addEventListener('click',zoomStep);
+  // creature click reactions
+  creatures.forEach(c=>{
+    c.addEventListener('click',()=>{
+      if(!c.classList.contains('on')) return;
+      c.classList.remove('react'); void c.offsetWidth; c.classList.add('react');
+      sfx.pop(3);
+      const hi=document.createElement('div');
+      hi.className='pop-hi'; hi.textContent=c.dataset.hi||'!';
+      hi.style.left=(20+Math.random()*40)+'%'; hi.style.top='10%';
+      c.parentElement.appendChild(hi); setTimeout(()=>hi.remove(),700);
+    });
+  });
+  function resetZoom(){ lv=0; applyLevel(); }
+
+  /* ---------- per-scene enter hooks (fixes prev-button bug) ---------- */
+  function onEnter(i){
+    if(i===2) resetZoom();     // always reset zoom when entering scene 3
+    if(i===1) resetGuess();    // reset guess when entering scene 2
+    if(i===3){ sfx.chime(); confetti(60); }
+    if(i===4){ setTimeout(()=>{sfx.chime();confetti(120);},150); }
+  }
+
+  /* ---------- ambient bubbles ---------- */
+  const bWrap=document.getElementById('bubbles');
+  for(let i=0;i<14;i++){
+    const s=document.createElement('span');
+    const size=6+Math.random()*22;
+    s.style.width=s.style.height=size+'px';
+    s.style.left=Math.random()*100+'vw';
+    s.style.animationDuration=(8+Math.random()*10)+'s';
+    s.style.animationDelay=(-Math.random()*12)+'s';
+    bWrap.appendChild(s);
+  }
+
+  // init
+  prevBtn.disabled=true;
+  applyLevel();
+})();
+</script>
+</body>
+</html>
