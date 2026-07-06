@@ -249,8 +249,16 @@
     </div>
   </section>
 
-  <!-- SCENE 3 -->
+  <!-- SCENE: 전환 질문 -->
   <section class="scene" data-scene="2">
+    <div class="eyebrow">궁금해요</div>
+    <h1 class="title">과연 이 물에는<br><span class="hl">어떤 생물</span>이<br>살고 있을까요?</h1>
+    <p class="sub">돋보기와 현미경으로 직접 들여다볼까요?</p>
+    <button class="btn wobble" data-next>들여다보기 →</button>
+  </section>
+
+  <!-- SCENE 3 -->
+  <section class="scene" data-scene="3">
     <div class="eyebrow">점점 크게 들여다보기</div>
     <div class="lens-stage">
       <div class="mag-badge" id="magBadge"><span class="tool" id="toolName">맨눈</span> · <span id="magText">1배</span> 🔍</div>
@@ -306,13 +314,12 @@
           </div>
         </div>
       </div>
-      <p class="zoom-hint" id="zoomHint">🔍 <b>확대</b> 버튼을 누를 때마다 더 크게 보여요</p>
     </div>
     <button class="btn wobble" id="zoomBtn">더 확대하기 🔎</button>
   </section>
 
   <!-- SCENE 4 -->
-  <section class="scene" data-scene="3">
+  <section class="scene" data-scene="4">
     <div class="eyebrow">어라?!</div>
     <h1 class="title">얘네들, <span class="hl">살아있어!</span></h1>
     <div class="myst-row">
@@ -330,7 +337,7 @@
   </section>
 
   <!-- SCENE 5 -->
-  <section class="scene" data-scene="4">
+  <section class="scene" data-scene="5">
     <div class="eyebrow">오늘의 학습 문제</div>
     <div class="problem-card">
       <div class="problem-label">◈ 함께 탐구할 문제</div>
@@ -477,7 +484,6 @@
   const magBadge=document.getElementById('magBadge');
   const toolName=document.getElementById('toolName');
   const magText=document.getElementById('magText');
-  const zoomHint=document.getElementById('zoomHint');
   const zoomBtn=document.getElementById('zoomBtn');
   const c1=document.getElementById('c1'), c2=document.getElementById('c2'), c3=document.getElementById('c3');
   const creatures=[c1,c2,c3];
@@ -489,7 +495,6 @@
     c1.style.width=L.paraW+'%';        // 짚신벌레: 0.2mm를 시야에 대한 실제 비율로
     c3.style.width=L.dotW+'%';
     c2.style.height=L.haeH+'%';        // 해캄: 가는 실 (화면을 가로지름)
-    zoomHint.innerHTML=L.hint;
     c2.classList.add('on');            // 해캄 실뭉치는 맨눈에도 보임
     c1.classList.toggle('on', lv>=1);  // 짚신벌레: 돋보기부터 점으로 등장
     c3.classList.toggle('on', lv>=1);
@@ -523,10 +528,10 @@
 
   /* ---------- per-scene enter hooks (fixes prev-button bug) ---------- */
   function onEnter(i){
-    if(i===2) resetZoom();     // always reset zoom when entering scene 3
-    if(i===1) resetGuess();    // reset guess when entering scene 2
-    if(i===3){ sfx.chime(); confetti(60); }
-    if(i===4){ setTimeout(()=>{sfx.chime();confetti(120);},150); }
+    if(i===1) resetGuess();    // 투표 화면
+    if(i===3) resetZoom();     // 확대 화면 (항상 초기화)
+    if(i===4){ sfx.chime(); confetti(60); }                       // 정체 공개
+    if(i===5){ setTimeout(()=>{sfx.chime();confetti(120);},150); } // 학습 문제
   }
 
   /* ---------- ambient bubbles ---------- */
