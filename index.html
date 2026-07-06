@@ -211,6 +211,106 @@
   .hint-key{position:fixed;bottom:20px;left:22px;z-index:20;font-family:var(--hand);
     color:rgba(255,255,255,.5);font-size:.95rem}
 
+  /* ===== 활동1: 관찰 카드 ===== */
+  .activity-cards{display:flex;gap:clamp(16px,3vw,36px);flex-wrap:wrap;justify-content:center;margin:2.6vh 0}
+  .a-card{background:var(--paper);color:var(--ink);border-radius:20px;padding:1.5rem 1.7rem;
+    width:clamp(210px,28vw,290px);box-shadow:0 14px 30px rgba(0,0,0,.3);border:4px solid var(--aqua);text-align:left}
+  .a-icon{font-size:2.2rem;text-align:center}
+  .a-name{font-family:var(--disp);font-size:1.35rem;margin:.25em 0;color:var(--pond-deep);text-align:center}
+  .a-steps{font-size:.95rem;line-height:1.6;padding-left:1.15em}
+  .a-steps li{margin-bottom:.3em}
+
+  /* ===== 활동2-1: 현미경 부품 라벨링 ===== */
+  .scope-wrap{position:relative;width:min(58vw,300px);margin:1.6vh auto 0}
+  .scope-wrap svg{width:100%;display:block;overflow:visible}
+  .hotspot{position:absolute;width:32px;height:32px;border-radius:50%;background:rgba(255,211,92,.92);
+    border:3px solid #fff;transform:translate(-50%,-50%);cursor:pointer;display:flex;align-items:center;
+    justify-content:center;font-family:var(--disp);color:var(--pond-deep);font-size:1rem;
+    box-shadow:0 4px 10px rgba(0,0,0,.4);animation:pulse 1.6s ease-in-out infinite;transition:background .2s}
+  .hotspot.found{background:var(--aqua);animation:none}
+  .info-panel{margin:2vh auto 0;background:rgba(255,255,255,.1);border:2px solid var(--aqua);border-radius:16px;
+    padding:1rem 1.4rem;max-width:56ch;min-height:4.4em;font-size:1rem;color:#fff;text-align:left}
+  .info-term{font-family:var(--disp);color:var(--sun);font-size:1.15rem;margin-bottom:.25em}
+  .progress-note{font-family:var(--hand);color:var(--aqua-soft);margin-top:1vh;font-size:1.05rem}
+
+  /* ===== 활동2-2: 초점 맞추기 시뮬레이터 ===== */
+  .focus-stage{display:flex;gap:clamp(18px,4vw,50px);align-items:center;justify-content:center;flex-wrap:wrap;margin-top:1.6vh}
+  .side-view{position:relative;width:78px;height:230px;background:rgba(255,255,255,.06);border-radius:16px;
+    border:2px solid rgba(255,255,255,.25);overflow:hidden;flex-shrink:0}
+  .side-lens{position:absolute;top:4%;left:50%;transform:translateX(-50%);width:40px;height:26px;
+    background:#c9c9c9;border-radius:6px 6px 14px 14px;border:2px solid #8b8b8b;z-index:2}
+  .side-danger{position:absolute;top:0;left:0;right:0;height:16%;
+    background:repeating-linear-gradient(45deg,rgba(255,90,90,.4),rgba(255,90,90,.4) 6px,transparent 6px,transparent 12px)}
+  .side-stage{position:absolute;left:50%;transform:translate(-50%,-50%);width:60px;height:9px;background:var(--sun);
+    border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.4);transition:top .25s ease;z-index:1}
+  .side-slide{position:absolute;left:50%;top:-8px;transform:translateX(-50%);width:34px;height:5px;background:#e8f7f0;border-radius:2px}
+  .eyepiece-view{position:relative;width:min(46vw,230px);aspect-ratio:1/1;border-radius:50%;overflow:hidden;flex-shrink:0;
+    background:radial-gradient(circle at 42% 38%,#1a8a76 0%,#0c5c50 55%,#063f38 100%);
+    box-shadow:0 0 0 8px rgba(255,255,255,.08),0 0 0 18px rgba(255,255,255,.05),inset 0 0 50px rgba(0,0,0,.5)}
+  .eyepiece-view svg{position:absolute;inset:0;width:100%;height:100%;transition:filter .2s ease}
+  .knob-controls{display:flex;flex-direction:column;gap:1.2rem;align-items:center}
+  .knob{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+  .knob-label{font-family:var(--disp);color:var(--sun);font-size:1.05rem}
+  .knob-btns{display:flex;gap:.55rem}
+  .knob-btn{width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:1.2rem;
+    background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.3);transition:.15s}
+  .knob-btn.coarse{width:56px;height:56px;font-size:1.4rem;background:rgba(255,211,92,.22);border-color:var(--sun)}
+  .knob-btn:active{transform:scale(.88)}
+  .focus-status{font-family:var(--hand);font-size:clamp(1.05rem,2.4vw,1.5rem);color:#fff;margin-top:1.2vh;min-height:1.4em}
+
+  /* ===== AI 챗봇 웹앱 연결 카드 (외부 페이지로 이동) ===== */
+  .chat-link-card{background:rgba(255,255,255,.08);border:2px dashed var(--aqua);border-radius:20px;
+    padding:1.4rem 1.7rem;max-width:560px;width:88vw;margin:1.8vh auto 0;text-align:center}
+  .chat-link-icon{font-size:2.4rem;margin-bottom:.3em}
+  .chat-link-steps{text-align:left;display:inline-block;font-size:.98rem;line-height:1.7;
+    color:#fff;margin:0 auto .6em;padding-left:1.3em}
+  .chat-link-text{font-size:.98rem;line-height:1.6;color:#fff;margin-bottom:.8em}
+
+  /* ===== AI 챗봇 UI (활동2-3, 활동3 공용) ===== */
+  .chat-panel{background:rgba(255,255,255,.08);border:2px solid var(--aqua);border-radius:20px;
+    padding:1.3rem 1.5rem;max-width:620px;width:90vw;text-align:left;margin:1.8vh auto 0}
+  .chat-q-row{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;margin-bottom:.9rem}
+  .chat-q-btn{font-family:var(--body);font-weight:700;background:rgba(255,255,255,.12);color:#fff;
+    border:2px solid rgba(255,255,255,.32);border-radius:14px;padding:.55em 1em;cursor:pointer;
+    font-size:.92rem;transition:.15s}
+  .chat-q-btn:hover{background:rgba(255,255,255,.22)}
+  .chat-q-btn.used{opacity:.4;pointer-events:none}
+  .chat-bubble{background:#fff;color:var(--ink);border-radius:16px;padding:.9rem 1.1rem;margin-top:.55rem;
+    font-size:.95rem;line-height:1.55;box-shadow:0 6px 16px rgba(0,0,0,.25);animation:popIn .4s ease}
+  .chat-bubble b{color:var(--pond)}
+  .chat-empty{color:var(--aqua-soft);font-family:var(--hand);font-size:1.05rem;text-align:center;padding:.5em 0}
+
+  /* ===== 관찰 개선 전/후 기록 ===== */
+  .reflect-row{display:flex;gap:1.1rem;flex-wrap:wrap;justify-content:center;margin-top:1.5rem}
+  .reflect-box{display:flex;flex-direction:column;gap:.35rem;width:clamp(190px,38vw,270px)}
+  .reflect-box label{font-family:var(--hand);color:var(--sun);font-size:1rem}
+  .reflect-box textarea{resize:none;border-radius:12px;border:2px solid rgba(255,255,255,.3);
+    background:rgba(255,255,255,.08);color:#fff;padding:.55em .75em;font-family:var(--body);
+    font-size:.9rem;min-height:60px}
+  .reflect-box textarea::placeholder{color:rgba(255,255,255,.4)}
+
+  /* ===== 활동3: 패들렛 보드 ===== */
+  .padlet-board{width:min(88vw,660px);min-height:150px;background:rgba(0,0,0,.18);
+    border-radius:18px;border:3px dashed rgba(255,255,255,.28);padding:1.1rem;display:flex;gap:.9rem;
+    flex-wrap:wrap;align-items:flex-start;justify-content:center;margin:1.8vh auto 0}
+  .sticky{width:145px;background:var(--sun);color:var(--pond-deep);border-radius:10px;padding:.75em .85em;
+    font-family:var(--body);font-weight:700;font-size:.82rem;line-height:1.4;box-shadow:0 8px 16px rgba(0,0,0,.3);
+    transform:rotate(-3deg);animation:popIn .4s ease;white-space:pre-wrap;outline:none;min-height:70px}
+  .sticky:focus{box-shadow:0 0 0 3px #fff,0 8px 16px rgba(0,0,0,.3)}
+  .sticky:nth-child(2n){transform:rotate(2deg);background:var(--aqua-soft)}
+  .sticky:nth-child(3n){transform:rotate(-1.5deg);background:var(--pink)}
+  .padlet-empty{color:rgba(255,255,255,.4);font-family:var(--hand);font-size:1.05rem}
+
+  /* ===== 탐구정리 ===== */
+  .summary-card{background:var(--paper);color:var(--ink);border-radius:24px;padding:1.8rem 2.2rem;
+    max-width:620px;box-shadow:0 20px 44px rgba(0,0,0,.35);border:5px solid var(--sun);text-align:left}
+  .summary-card li{margin-bottom:.55em;line-height:1.6;font-size:1.02rem}
+  .photo-cards{display:flex;gap:1.1rem;flex-wrap:wrap;justify-content:center;margin-top:2.2vh}
+  .photo-card{width:clamp(130px,20vw,180px);background:rgba(255,255,255,.08);border-radius:16px;overflow:hidden;
+    border:3px solid rgba(255,255,255,.25);box-shadow:0 12px 26px rgba(0,0,0,.3)}
+  .photo-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#04241f}
+  .photo-card .cap{padding:.45em;font-family:var(--disp);color:var(--sun);font-size:.95rem;text-align:center}
+
   @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:opacity .2s ease !important}}
 </style>
 </head>
@@ -391,6 +491,180 @@
       <p class="problem-text"><span class="u">해캄</span>과 <span class="u">짚신벌레</span>를 관찰하고<br>특징과 사는 곳을 탐구해봅시다.</p>
     </div>
     <p class="sub" style="margin-top:3vh">맨눈 → 돋보기 → 현미경, 점점 크게 들여다보며 정체를 밝혀요!</p>
+  </section>
+
+  <!-- SCENE 8: 활동1 맨눈+돋보기 -->
+  <section class="scene" data-scene="8">
+    <div class="eyebrow">활동1 · 맨눈과 돋보기로 관찰하기</div>
+    <h1 class="title compact">먼저 눈으로, 그다음 돋보기로!</h1>
+    <div class="activity-cards">
+      <div class="a-card">
+        <div class="a-icon">🌿</div>
+        <div class="a-name">해캄</div>
+        <ul class="a-steps">
+          <li>맨눈으로 전체 모습을 살펴봐요</li>
+          <li>돋보기로 모양과 표면을 자세히 봐요</li>
+        </ul>
+      </div>
+      <div class="a-card">
+        <div class="a-icon">🔎</div>
+        <div class="a-name">짚신벌레</div>
+        <ul class="a-steps">
+          <li>맨눈으로 보이는지 확인해요</li>
+          <li>돋보기로 움직임과 모양을 봐요</li>
+        </ul>
+      </div>
+    </div>
+    <p class="sub">짝과 관찰한 내용을 비교하고, 활동지에 기록해봐요 ✏️</p>
+    <button class="btn wobble" data-next>다음 활동으로 →</button>
+  </section>
+
+  <!-- SCENE 9: 활동2-1 현미경 부품 알아보기 -->
+  <section class="scene" data-scene="9">
+    <div class="eyebrow">활동2 · 현미경과 친해지기</div>
+    <h1 class="title compact">현미경의 이름표를 눌러봐요</h1>
+    <div class="scope-wrap">
+      <svg viewBox="0 0 220 320" xmlns="http://www.w3.org/2000/svg">
+        <rect x="60" y="286" width="100" height="20" rx="8" fill="#2b6f5f" stroke="#123f34" stroke-width="4"/>
+        <path d="M108 286 L108 60" stroke="#2b6f5f" stroke-width="16" stroke-linecap="round"/>
+        <path d="M108 100 Q64 100 64 150 L64 210" fill="none" stroke="#2b6f5f" stroke-width="16" stroke-linecap="round"/>
+        <rect x="18" y="200" width="110" height="16" rx="8" fill="#c9c9c9" stroke="#8b8b8b" stroke-width="3"/>
+        <rect x="55" y="192" width="34" height="8" rx="2" fill="#e8f7f0"/>
+        <ellipse cx="108" cy="230" rx="20" ry="9" fill="#3a3a3a"/>
+        <circle cx="90" cy="150" r="10" fill="#9aa1a6" stroke="#666" stroke-width="2"/>
+        <circle cx="90" cy="150" r="5" fill="#c9c9c9"/>
+        <circle cx="90" cy="168" r="7" fill="#c9c9c9" stroke="#8b8b8b" stroke-width="2"/>
+        <rect x="94" y="56" width="28" height="34" rx="6" fill="#9aa1a6" stroke="#666" stroke-width="3"/>
+        <ellipse cx="108" cy="54" rx="20" ry="8" fill="#c9c9c9" stroke="#8b8b8b" stroke-width="3"/>
+        <rect x="86" y="98" width="44" height="14" rx="6" fill="#c9c9c9" stroke="#8b8b8b" stroke-width="3"/>
+        <rect x="100" y="112" width="16" height="22" fill="#9aa1a6" stroke="#666" stroke-width="2"/>
+        <rect x="116" y="112" width="16" height="22" fill="#9aa1a6" stroke="#666" stroke-width="2"/>
+      </svg>
+      <button class="hotspot" style="left:49%;top:15%" data-term="eyepiece"></button>
+      <button class="hotspot" style="left:52%;top:37%" data-term="nosepiece"></button>
+      <button class="hotspot" style="left:35%;top:63%" data-term="stage"></button>
+      <button class="hotspot" style="left:41%;top:47%" data-term="coarse"></button>
+      <button class="hotspot" style="left:41%;top:52.5%" data-term="fine"></button>
+      <button class="hotspot" style="left:50%;top:94%" data-term="base"></button>
+    </div>
+    <div class="info-panel" id="scopeInfo">
+      <div class="chat-empty">위 그림의 노란 점을 눌러서 현미경 부품 이름을 알아봐요!</div>
+    </div>
+    <p class="progress-note" id="scopeProgress">0 / 6 확인했어요</p>
+    <button class="btn wobble" data-next style="margin-top:2vh">초점 맞춰보기 →</button>
+  </section>
+
+  <!-- SCENE 10: 활동2-2 초점 맞추기 시뮬레이터 -->
+  <section class="scene" data-scene="10">
+    <div class="eyebrow">활동2 · 조동나사와 미동나사</div>
+    <h1 class="title compact">재물대를 움직여 초점을 맞춰봐요</h1>
+    <div class="focus-stage">
+      <div class="side-view">
+        <div class="side-danger"></div>
+        <div class="side-lens"></div>
+        <div class="side-stage" id="sideStage"><div class="side-slide"></div></div>
+      </div>
+      <div class="eyepiece-view">
+        <svg id="focusSample" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 64 C40 24 90 12 130 22 C175 34 185 74 150 100 C110 122 55 112 42 82 Z" fill="#d8c79c" stroke="#b8a271" stroke-width="3"/>
+          <ellipse cx="95" cy="64" rx="30" ry="16" fill="#c2ad7d" opacity=".5"/>
+          <circle cx="112" cy="52" r="11" fill="#fff"/><circle cx="140" cy="54" r="11" fill="#fff"/>
+          <circle cx="115" cy="54" r="5" fill="#20303a"/><circle cx="143" cy="56" r="5" fill="#20303a"/>
+        </svg>
+      </div>
+      <div class="knob-controls">
+        <div class="knob">
+          <div class="knob-label">조동나사</div>
+          <div class="knob-btns">
+            <button class="knob-btn coarse" id="coarseUp" title="크게 위로">▲</button>
+            <button class="knob-btn coarse" id="coarseDown" title="크게 아래로">▼</button>
+          </div>
+        </div>
+        <div class="knob">
+          <div class="knob-label">미동나사</div>
+          <div class="knob-btns">
+            <button class="knob-btn" id="fineUp" title="조금 위로">▲</button>
+            <button class="knob-btn" id="fineDown" title="조금 아래로">▼</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="focus-status" id="focusStatus">조동나사로 크게 맞춘 다음, 미동나사로 선명하게 다듬어봐요</p>
+    <button class="btn wobble" data-next style="margin-top:1vh">실제로 관찰해보기 →</button>
+  </section>
+
+  <!-- SCENE 11: 활동2-3 관찰결과 발표 + AI 챗봇 개선 -->
+  <section class="scene" data-scene="11">
+    <div class="eyebrow">활동2 · 관찰 결과 발표하고 다듬기</div>
+    <h1 class="title compact">현미경으로 본 모습을 발표해봐요</h1>
+    <p class="sub">해캄은 어떤 모양? 짚신벌레는 어떤 모양? 짝과 이야기해봐요</p>
+    <div class="chat-link-card">
+      <div class="chat-link-icon">🤖</div>
+      <ol class="chat-link-steps">
+        <li>활동지를 사진으로 찍어 AI 챗봇 웹앱에 올려요</li>
+        <li>"빠진 부분이 있는지 알려줘"처럼 질문해요</li>
+        <li>답변을 참고해서 관찰 기록을 다듬어요</li>
+      </ol>
+      <a class="btn wobble" href="https://seungmin999.github.io/haecam-ai/" target="_blank" rel="noopener">AI 챗봇 웹앱 열기 →</a>
+    </div>
+    <div class="reflect-row">
+      <div class="reflect-box">
+        <label>처음 관찰 기록</label>
+        <textarea placeholder="예: 초록색 실처럼 생겼다"></textarea>
+      </div>
+      <div class="reflect-box">
+        <label>AI 챗봇 활용 후 수정한 기록</label>
+        <textarea placeholder="예: 나선 모양 알갱이가 있는 가는 초록 실 모양이다"></textarea>
+      </div>
+    </div>
+    <button class="btn wobble" data-next style="margin-top:1.6vh">특징 알아보기 →</button>
+  </section>
+
+  <!-- SCENE 12: 활동3 특징과 사는 곳 -->
+  <section class="scene" data-scene="12">
+    <div class="eyebrow">활동3 · 특징과 사는 곳 알아보기</div>
+    <h1 class="title compact">AI 챗봇에게 물어보고 패들렛에 정리해요</h1>
+    <div class="chat-link-card">
+      <div class="chat-link-icon">🤖</div>
+      <p class="chat-link-text">AI 챗봇 웹앱에게 해캄과 짚신벌레의 특징·사는 곳을 물어보고,<br>알게 된 내용을 아래 메모 버튼으로 패들렛에 붙여봐요</p>
+      <a class="btn wobble" href="https://seungmin999.github.io/haecam-ai/" target="_blank" rel="noopener">AI 챗봇 웹앱 열기 →</a>
+    </div>
+    <div class="chat-q-row" id="noteButtons">
+      <button class="chat-q-btn" data-cat="🌿 해캄 특징">+ 해캄 특징 메모</button>
+      <button class="chat-q-btn" data-cat="🔬 짚신벌레 특징">+ 짚신벌레 특징 메모</button>
+      <button class="chat-q-btn" data-cat="📍 사는 곳">+ 사는 곳 메모</button>
+    </div>
+    <div class="padlet-board" id="padletBoard">
+      <div class="padlet-empty">여기에 정리한 내용이 쌓여요 📌</div>
+    </div>
+    <button class="btn wobble" data-next style="margin-top:1.6vh">탐구 정리하기 →</button>
+  </section>
+
+  <!-- SCENE 13: 탐구정리 -->
+  <section class="scene" data-scene="13">
+    <div class="eyebrow">탐구정리</div>
+    <h1 class="title compact">원생생물이란?</h1>
+    <div class="summary-card">
+      <ul>
+        <li>해캄과 짚신벌레처럼 <b>식물·동물·균류로 분류되지 않는</b> 생물을 원생생물이라고 합니다.</li>
+        <li>원생생물은 주로 <b>연못처럼 물이 고인 곳</b>이나 <b>물살이 느린 하천</b>에서 삽니다.</li>
+        <li>원생생물에는 <b>유글레나, 종벌레, 반달말</b>이 있습니다.</li>
+      </ul>
+    </div>
+    <div class="photo-cards">
+      <div class="photo-card">
+        <img src="assets/euglena.jpg" alt="유글레나">
+        <div class="cap">유글레나</div>
+      </div>
+      <div class="photo-card">
+        <img src="assets/jongbeolle.jpg" alt="종벌레">
+        <div class="cap">종벌레</div>
+      </div>
+      <div class="photo-card">
+        <img src="assets/bandalmal.jpg" alt="반달말">
+        <div class="cap">반달말</div>
+      </div>
+    </div>
   </section>
 
 </div>
@@ -584,6 +858,98 @@
     scoopVideo.addEventListener('ended',()=>{ if(idx===1) next(); });
   }
 
+  /* ---------- scene 9: 현미경 부품 라벨링 ---------- */
+  const scopeTerms={
+    eyepiece:{name:'접안렌즈',desc:'눈을 대고 보는 렌즈예요. 표본의 모습을 확대해서 보여줘요.'},
+    nosepiece:{name:'회전판·대물렌즈',desc:'표본에 가장 가까운 렌즈예요. 돌리면 배율(확대 정도)을 바꿀 수 있어요.'},
+    stage:{name:'재물대',desc:'관찰할 표본(영구 표본)을 올려놓는 판이에요.'},
+    coarse:{name:'조동나사',desc:'재물대를 크게 움직여서 전체적인 초점을 맞출 때 사용해요.'},
+    fine:{name:'미동나사',desc:'재물대를 아주 조금씩 움직여서 초점을 선명하게 다듬을 때 사용해요.'},
+    base:{name:'받침대',desc:'현미경을 안정적으로 지지해주는 다리 부분이에요.'}
+  };
+  const scopeInfo=document.getElementById('scopeInfo');
+  const scopeProgress=document.getElementById('scopeProgress');
+  const hotspots=[...document.querySelectorAll('.hotspot')];
+  hotspots.forEach(h=>{
+    h.addEventListener('click',()=>{
+      sfx.click();
+      const t=scopeTerms[h.dataset.term];
+      scopeInfo.innerHTML='<div class="info-term">'+t.name+'</div>'+t.desc;
+      if(!h.classList.contains('found')){ h.classList.add('found'); sfx.pop(1); }
+      const found=hotspots.filter(x=>x.classList.contains('found')).length;
+      scopeProgress.textContent=found+' / '+hotspots.length+' 확인했어요'+(found===hotspots.length?' 🎉':'');
+      if(found===hotspots.length){ confetti(40); }
+    });
+  });
+  function resetHotspots(){
+    hotspots.forEach(h=>h.classList.remove('found'));
+    scopeInfo.innerHTML='<div class="chat-empty">위 그림의 노란 점을 눌러서 현미경 부품 이름을 알아봐요!</div>';
+    scopeProgress.textContent='0 / '+hotspots.length+' 확인했어요';
+  }
+
+  /* ---------- scene 10: 초점 맞추기 시뮬레이터 ---------- */
+  let stagePos=90; // 0=렌즈에 닿음(위험) ~ 100=멀리 내려감
+  const TARGET=25, TARGET_RANGE=6, CRASH_AT=14;
+  const sideStage=document.getElementById('sideStage');
+  const focusSample=document.getElementById('focusSample');
+  const focusStatus=document.getElementById('focusStatus');
+  let focusDone=false;
+  function updateFocusView(){
+    sideStage.style.top=(12+stagePos*0.76)+'%';
+    const dist=Math.abs(stagePos-TARGET);
+    const blur=Math.min(14,dist*0.55);
+    focusSample.style.filter='blur('+blur+'px)';
+    if(dist<=TARGET_RANGE){
+      if(!focusDone){ focusDone=true; sfx.chime(); confetti(50); }
+      focusStatus.textContent='선명해요! 초점이 딱 맞았어요 🔍✨';
+    } else if(dist<=TARGET_RANGE+10){
+      focusStatus.textContent='거의 다 왔어요! 미동나사로 살짝만 더 조절해봐요';
+    } else if(dist<=TARGET_RANGE+30){
+      focusStatus.textContent='조금 더 조절해봐요';
+    } else {
+      focusStatus.textContent='많이 흐려요… 조동나사를 크게 돌려봐요';
+    }
+  }
+  function moveStage(delta){
+    stagePos=Math.max(0,Math.min(100,stagePos+delta));
+    if(stagePos<CRASH_AT){
+      document.body.classList.remove('shake'); void document.body.offsetWidth; document.body.classList.add('shake');
+      sfx.pop(0);
+      focusStatus.textContent='앗! 재물대가 대물렌즈에 부딪힐 뻔했어요! 조심조심 다시 조절해요 😳';
+      stagePos=60;
+    } else { sfx.tick(); }
+    updateFocusView();
+  }
+  document.getElementById('coarseUp').addEventListener('click',()=>moveStage(-16));
+  document.getElementById('coarseDown').addEventListener('click',()=>moveStage(16));
+  document.getElementById('fineUp').addEventListener('click',()=>moveStage(-4));
+  document.getElementById('fineDown').addEventListener('click',()=>moveStage(4));
+  function resetFocusSim(){
+    stagePos=90; focusDone=false;
+    focusStatus.textContent='조동나사로 크게 맞춘 다음, 미동나사로 선명하게 다듬어봐요';
+    updateFocusView();
+  }
+
+  /* ---------- scene 12: 패들렛 메모 (AI 챗봇 웹앱에서 알게 된 내용을 직접 입력) ---------- */
+  const padletBoard=document.getElementById('padletBoard');
+  document.querySelectorAll('#noteButtons .chat-q-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      sfx.click();
+      if(padletBoard.querySelector('.padlet-empty')) padletBoard.innerHTML='';
+      const s=document.createElement('div');
+      s.className='sticky'; s.contentEditable='true';
+      s.textContent=btn.dataset.cat+'\n';
+      padletBoard.appendChild(s);
+      sfx.pop(2);
+      s.focus();
+      const range=document.createRange(); range.selectNodeContents(s); range.collapse(false);
+      const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    });
+  });
+  function resetActivity3(){
+    padletBoard.innerHTML='<div class="padlet-empty">여기에 정리한 내용이 쌓여요 📌</div>';
+  }
+
   /* ---------- per-scene enter hooks (fixes prev-button bug) ---------- */
   function onEnter(i){
     if(i===1) playScoopVideo();          // 물 뜨는 영상
@@ -592,6 +958,10 @@
     if(i===5) resetZoom();     // 확대 화면 (항상 초기화)
     if(i===6){ sfx.chime(); confetti(60); }                       // 정체 공개
     if(i===7){ setTimeout(()=>{sfx.chime();confetti(120);},150); } // 학습 문제
+    if(i===9) resetHotspots();   // 현미경 부품 라벨링
+    if(i===10) resetFocusSim();  // 초점 맞추기
+    if(i===12) resetActivity3(); // 패들렛 초기화
+    if(i===13){ setTimeout(()=>{sfx.chime();confetti(140);},150); } // 탐구정리
   }
 
   /* ---------- ambient bubbles ---------- */
@@ -609,6 +979,7 @@
   // init
   prevBtn.disabled=true;
   applyLevel();
+  updateFocusView();
 })();
 </script>
 </body>
