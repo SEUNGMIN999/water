@@ -215,10 +215,13 @@
   .activity-cards{display:flex;gap:clamp(16px,3vw,36px);flex-wrap:wrap;justify-content:center;margin:2.6vh 0}
   .a-card{background:var(--paper);color:var(--ink);border-radius:20px;padding:1.5rem 1.7rem;
     width:clamp(210px,28vw,290px);box-shadow:0 14px 30px rgba(0,0,0,.3);border:4px solid var(--aqua);text-align:left}
-  .a-icon{font-size:2.2rem;text-align:center}
-  .a-name{font-family:var(--disp);font-size:1.35rem;margin:.25em 0;color:var(--pond-deep);text-align:center}
-  .a-steps{font-size:.95rem;line-height:1.6;padding-left:1.15em}
-  .a-steps li{margin-bottom:.3em}
+  .a-illus{display:flex;justify-content:center;align-items:center;height:70px;
+    background:radial-gradient(circle at 50% 45%,#fbf6df,#eef0dd);border-radius:14px;margin-bottom:.3em}
+  .a-name{font-family:var(--disp);font-size:1.35rem;margin:.25em 0 .5em;color:var(--pond-deep);text-align:center}
+  .a-steps{font-size:.95rem;line-height:1.5;padding-left:0;list-style:none}
+  .a-steps li{margin-bottom:.5em;display:flex;align-items:center;gap:.5em}
+  .tool-ico{flex:none;width:34px;height:34px;border-radius:50%;background:var(--sun);
+    display:grid;place-items:center;font-size:1.1rem;box-shadow:0 3px 0 var(--sun-deep)}
 
   /* ===== 활동2-1: 현미경 부품 탐색 ===== */
   .scope-explore{display:grid;grid-template-columns:1fr 1.1fr;gap:18px;align-items:start;
@@ -558,19 +561,43 @@
     <h1 class="title compact">먼저 눈으로, 그다음 돋보기로!</h1>
     <div class="activity-cards">
       <div class="a-card">
-        <div class="a-icon">🌿</div>
+        <div class="a-illus">
+          <svg viewBox="0 0 120 80" width="96" height="64" aria-label="해캄">
+            <g transform="translate(60,40) rotate(-14)">
+              <rect x="-50" y="-13" width="100" height="26" rx="13" fill="#e8f6ec" stroke="#57b98a" stroke-width="2.5"/>
+              <path d="M-44 0 Q-33 -9 -22 0 T0 0 T22 0 T44 0" fill="none" stroke="#2e8b63" stroke-width="5.5" stroke-linecap="round"/>
+              <path d="M-44 0 Q-33 9 -22 0 T0 0 T22 0 T44 0" fill="none" stroke="#57b98a" stroke-width="5.5" stroke-linecap="round" opacity=".7"/>
+            </g>
+          </svg>
+        </div>
         <div class="a-name">해캄</div>
         <ul class="a-steps">
-          <li>맨눈으로 전체 모습을 살펴봐요</li>
-          <li>돋보기로 모양과 표면을 자세히 봐요</li>
+          <li><span class="tool-ico">👁️</span> 맨눈으로 전체 모습을 살펴봐요</li>
+          <li><span class="tool-ico">🔍</span> 돋보기로 모양과 표면을 자세히 봐요</li>
         </ul>
       </div>
       <div class="a-card">
-        <div class="a-icon">🔎</div>
+        <div class="a-illus">
+          <svg viewBox="0 0 120 80" width="96" height="64" aria-label="짚신벌레">
+            <g transform="translate(60,40) rotate(18)">
+              <ellipse cx="0" cy="0" rx="42" ry="23" fill="#f8e4d7" stroke="#e0895a" stroke-width="2.5"/>
+              <path d="M-18 -5 Q-2 5 20 -2" fill="none" stroke="#c56a3d" stroke-width="2.5"/>
+              <circle cx="-13" cy="6" r="4" fill="#f2c3a3"/><circle cx="16" cy="8" r="4" fill="#f2c3a3"/>
+              <ellipse cx="2" cy="-3" rx="7" ry="4.5" fill="#e0a985" opacity=".55"/>
+              <g stroke="#e0895a" stroke-width="1.6" stroke-linecap="round">
+                <line x1="-42" y1="-5" x2="-50" y2="-8"/><line x1="-40" y1="5" x2="-48" y2="8"/>
+                <line x1="-30" y1="-17" x2="-34" y2="-25"/><line x1="0" y1="-23" x2="0" y2="-31"/>
+                <line x1="30" y1="-17" x2="34" y2="-25"/><line x1="42" y1="-4" x2="50" y2="-6"/>
+                <line x1="40" y1="6" x2="48" y2="9"/><line x1="30" y1="17" x2="34" y2="25"/>
+                <line x1="0" y1="23" x2="0" y2="31"/><line x1="-30" y1="17" x2="-34" y2="25"/>
+              </g>
+            </g>
+          </svg>
+        </div>
         <div class="a-name">짚신벌레</div>
         <ul class="a-steps">
-          <li>맨눈으로 보이는지 확인해요</li>
-          <li>돋보기로 움직임과 모양을 봐요</li>
+          <li><span class="tool-ico">👁️</span> 맨눈으로 보이는지 확인해요</li>
+          <li><span class="tool-ico">🔍</span> 돋보기로 움직임과 모양을 봐요</li>
         </ul>
       </div>
     </div>
