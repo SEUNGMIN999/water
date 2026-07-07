@@ -242,12 +242,22 @@
   .part-btn.active{border-color:var(--aqua);background:rgba(40,192,163,.22)}
   .part-num{flex:none;width:25px;height:25px;border-radius:50%;background:var(--aqua);color:var(--pond-deep);display:grid;place-items:center;font-family:var(--disp);font-size:.9rem}
   .part-btn.active .part-num{background:var(--sun)}
-  .part-name{font-family:var(--disp);font-size:1rem}
-  .part-desc-inline{display:block;font-size:.8rem;color:var(--aqua-soft);margin-top:1px}
-  .part-info{margin-top:12px;background:rgba(40,192,163,.14);border:2px dashed var(--aqua);border-radius:14px;padding:13px;min-height:64px;color:#fff}
-  .part-info .pi-name{font-family:var(--disp);font-size:1.15rem;color:var(--sun)}
-  .part-info .pi-desc{margin-top:4px;font-size:.95rem;line-height:1.5}
-  .part-info.empty{color:var(--aqua-soft);border-color:rgba(143,227,208,.4);background:rgba(255,255,255,.06)}
+  .part-name{font-family:var(--disp);font-size:1.05rem}
+  .part-hint{font-family:var(--hand);color:var(--aqua-soft);font-size:1rem;text-align:center;margin-top:10px}
+
+  /* 부품 설명 팝업 */
+  .part-modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;
+    background:rgba(6,47,44,.72);backdrop-filter:blur(3px);padding:6vw}
+  .part-modal.show{display:flex;animation:fade .25s ease}
+  .part-modal-box{position:relative;background:var(--paper);color:var(--ink);border-radius:22px;
+    padding:2rem 1.8rem 1.8rem;max-width:420px;width:100%;text-align:center;
+    box-shadow:0 24px 60px rgba(0,0,0,.5);border:5px solid var(--sun);animation:popIn .3s ease}
+  .part-modal-x{position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.3rem;
+    cursor:pointer;color:#2f5a4f;line-height:1}
+  .pm-num{width:52px;height:52px;border-radius:50%;background:var(--aqua);color:var(--pond-deep);
+    display:grid;place-items:center;font-family:var(--disp);font-size:1.5rem;margin:0 auto .6em}
+  .pm-name{font-family:var(--disp);font-size:1.5rem;color:var(--pond);margin-bottom:.3em}
+  .pm-desc{font-size:1.05rem;line-height:1.6;color:var(--ink)}
 
   /* ===== 활동2-2: 가상 실습실 ===== */
   .lab{display:grid;grid-template-columns:270px 1fr;gap:20px;align-items:start;max-width:760px;width:92vw;margin:1.2vh auto 0;text-align:left}
@@ -625,7 +635,15 @@
       </div>
       <div class="scope-side">
         <div class="part-list" id="partList"></div>
-        <div class="part-info empty" id="partInfo">부분을 누르면 설명이 여기에 나타나요.</div>
+        <p class="part-hint">부품을 누르면 설명이 나타나요 👆</p>
+      </div>
+    </div>
+    <div class="part-modal" id="partModal" aria-hidden="true">
+      <div class="part-modal-box" role="dialog">
+        <button class="part-modal-x" id="partModalX" aria-label="닫기">✕</button>
+        <div class="pm-num" id="pmNum">1</div>
+        <div class="pm-name" id="pmName"></div>
+        <div class="pm-desc" id="pmDesc"></div>
       </div>
     </div>
     <button class="btn wobble" data-next style="margin-top:1.6vh">초점 맞춰보기 →</button>
@@ -634,33 +652,33 @@
   <!-- SCENE 10: 활동2-2 가상 현미경 실습 -->
   <section class="scene" data-scene="10">
     <div class="eyebrow">활동2 · 가상 현미경 실습</div>
-    <h1 class="title compact">직접 초점을 맞춰 관찰해봐요</h1>
+    <h1 class="title compact">곰팡이로 현미경 조작을 연습해봐요</h1>
     <div class="lab">
       <div class="view-col">
         <div class="scope-view" id="scopeView">
           <div class="field-inner" id="fieldInner">
             <svg viewBox="0 0 230 230">
               <g id="specimenGroup" style="display:none">
-                <g id="lab-haecam" style="display:none" transform="translate(115,115)">
-                  <g transform="rotate(-16)">
-                    <rect x="-52" y="-14" width="104" height="28" rx="14" fill="#e8f6ec" stroke="#57b98a" stroke-width="2"/>
-                    <path d="M-46 0 Q-34 -10 -22 0 T2 0 T26 0 T46 0" fill="none" stroke="#2e8b63" stroke-width="6" stroke-linecap="round"/>
-                    <path d="M-46 0 Q-34 10 -22 0 T2 0 T26 0 T46 0" fill="none" stroke="#57b98a" stroke-width="6" stroke-linecap="round" opacity=".7"/>
+                <g id="lab-mold" style="display:none" transform="translate(115,115)">
+                  <g stroke="#8a7f5f" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".85">
+                    <path d="M-60 34 Q-40 10 -30 -20"/>
+                    <path d="M-40 40 Q-20 8 -6 -34"/>
+                    <path d="M-14 42 Q-6 6 6 -40"/>
+                    <path d="M14 40 Q18 8 24 -30"/>
+                    <path d="M40 36 Q34 10 42 -18"/>
+                    <path d="M-50 20 Q-10 18 40 22"/>
+                    <path d="M-46 -6 Q0 -2 44 0"/>
                   </g>
-                </g>
-                <g id="lab-jipsin" style="display:none" transform="translate(115,115)">
-                  <g transform="rotate(22)">
-                    <ellipse cx="0" cy="0" rx="46" ry="26" fill="#f8e4d7" stroke="#e0895a" stroke-width="2"/>
-                    <path d="M-20 -6 Q-2 5 22 -2" fill="none" stroke="#c56a3d" stroke-width="2.5"/>
-                    <circle cx="-15" cy="7" r="4.5" fill="#f2c3a3"/>
-                    <circle cx="18" cy="9" r="4.5" fill="#f2c3a3"/>
-                    <ellipse cx="2" cy="-3" rx="8" ry="5" fill="#e0a985" opacity=".55"/>
-                    <g stroke="#e0895a" stroke-width="1.7" stroke-linecap="round">
-                      <line x1="-46" y1="-6" x2="-55" y2="-9"/><line x1="-44" y1="5" x2="-53" y2="8"/>
-                      <line x1="-33" y1="-19" x2="-38" y2="-28"/><line x1="0" y1="-26" x2="0" y2="-35"/>
-                      <line x1="33" y1="-19" x2="38" y2="-28"/><line x1="46" y1="-4" x2="55" y2="-6"/>
-                      <line x1="44" y1="7" x2="53" y2="10"/><line x1="33" y1="19" x2="38" y2="28"/>
-                      <line x1="0" y1="26" x2="0" y2="35"/><line x1="-33" y1="19" x2="-38" y2="28"/>
+                  <g>
+                    <circle cx="-30" cy="-24" r="10" fill="#5b6b7a"/><circle cx="-30" cy="-24" r="10" fill="none" stroke="#3f4b57" stroke-width="1.5"/>
+                    <circle cx="-6" cy="-38" r="12" fill="#6b7b8a"/><circle cx="-6" cy="-38" r="12" fill="none" stroke="#3f4b57" stroke-width="1.5"/>
+                    <circle cx="6" cy="-44" r="9" fill="#5b6b7a"/>
+                    <circle cx="24" cy="-34" r="11" fill="#748492"/><circle cx="24" cy="-34" r="11" fill="none" stroke="#3f4b57" stroke-width="1.5"/>
+                    <circle cx="42" cy="-22" r="8" fill="#5b6b7a"/>
+                    <g fill="#3f4b57">
+                      <circle cx="-30" cy="-26" r="1.6"/><circle cx="-27" cy="-22" r="1.4"/><circle cx="-33" cy="-23" r="1.3"/>
+                      <circle cx="-6" cy="-40" r="1.6"/><circle cx="-3" cy="-35" r="1.4"/><circle cx="-9" cy="-37" r="1.3"/>
+                      <circle cx="24" cy="-36" r="1.6"/><circle cx="27" cy="-31" r="1.4"/><circle cx="21" cy="-33" r="1.3"/>
                     </g>
                   </g>
                 </g>
@@ -676,14 +694,11 @@
         <div class="controls">
           <div class="ctl-box">
             <div class="ctl-title">① 표본 올리기 <span class="tag">재물대</span></div>
+            <p style="font-size:.85rem;color:var(--aqua-soft);margin-bottom:8px">지난 시간에 배운 <b style="color:#fff">곰팡이</b>로 현미경 조작을 연습해 봐요!</p>
             <div class="slide-tray">
-              <button class="slide-chip" data-spec="haecam">
-                <svg viewBox="0 0 60 34" width="52" height="30"><rect x="4" y="6" width="52" height="22" rx="3" fill="#f6f1e2" stroke="#c9bd97" stroke-width="1.5"/><path d="M14 17 q6 -6 12 0 t12 0" stroke="#2e8b63" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
-                해캄
-              </button>
-              <button class="slide-chip" data-spec="jipsin">
-                <svg viewBox="0 0 60 34" width="52" height="30"><rect x="4" y="6" width="52" height="22" rx="3" fill="#f6f1e2" stroke="#c9bd97" stroke-width="1.5"/><ellipse cx="30" cy="17" rx="13" ry="7" fill="#f8e4d7" stroke="#e0895a" stroke-width="1.5"/></svg>
-                짚신벌레
+              <button class="slide-chip" data-spec="mold" style="flex:0 1 60%">
+                <svg viewBox="0 0 60 34" width="52" height="30"><rect x="4" y="6" width="52" height="22" rx="3" fill="#f6f1e2" stroke="#c9bd97" stroke-width="1.5"/><path d="M14 24 Q18 14 16 9 M24 24 Q26 13 30 9 M36 24 Q34 14 40 10" stroke="#8a7f5f" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="9" r="2.6" fill="#5b6b7a"/><circle cx="30" cy="9" r="3" fill="#6b7b8a"/><circle cx="40" cy="10" r="2.4" fill="#5b6b7a"/></svg>
+                곰팡이
               </button>
             </div>
           </div>
@@ -886,6 +901,11 @@
   nextBtn.addEventListener('click',next);
   prevBtn.addEventListener('click',prev);
   window.addEventListener('keydown',e=>{
+    const modalOpen=document.getElementById('partModal').classList.contains('show');
+    if(modalOpen){
+      if(e.key==='Escape') closePartModal();
+      return;
+    }
     if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next();}
     else if(e.key==='ArrowLeft'){prev();}
   });
@@ -1008,12 +1028,15 @@
     {id:'base',n:8,name:'받침대',desc:'현미경 전체를 안전하게 받쳐 주는 바닥이에요.'},
   ];
   const partList=document.getElementById('partList');
-  const partInfo=document.getElementById('partInfo');
+  const partModal=document.getElementById('partModal');
+  const pmNum=document.getElementById('pmNum');
+  const pmName=document.getElementById('pmName');
+  const pmDesc=document.getElementById('pmDesc');
   const partShapes=[...document.querySelectorAll('.part-shape')];
   const svgHotspots=[...document.querySelectorAll('.hotspot-svg')];
   PARTS.forEach(p=>{
     const b=document.createElement('button');b.className='part-btn';b.dataset.part=p.id;
-    b.innerHTML='<span class="part-num">'+p.n+'</span><span><span class="part-name">'+p.name+'</span><span class="part-desc-inline">'+p.desc.split('.')[0]+'.</span></span>';
+    b.innerHTML='<span class="part-num">'+p.n+'</span><span class="part-name">'+p.name+'</span>';
     b.addEventListener('click',()=>selectPart(p.id));partList.appendChild(b);
   });
   svgHotspots.forEach(h=>h.addEventListener('click',()=>selectPart(h.dataset.part)));
@@ -1023,23 +1046,30 @@
     document.querySelectorAll('.part-btn').forEach(b=>b.classList.toggle('active',b.dataset.part===id));
     svgHotspots.forEach(h=>h.classList.toggle('active',h.dataset.part===id));
     partShapes.forEach(s=>{const on=s.dataset.shape===id;s.classList.toggle('glow',on);s.classList.toggle('dim',!on);});
-    partInfo.className='part-info';
-    partInfo.innerHTML='<div class="pi-name">'+p.n+'. '+p.name+'</div><div class="pi-desc">'+p.desc+'</div>';
+    pmNum.textContent=p.n;
+    pmName.textContent=p.name;
+    pmDesc.textContent=p.desc;
+    partModal.classList.add('show');
+    partModal.setAttribute('aria-hidden','false');
   }
-  function resetParts(){
+  function closePartModal(){
+    partModal.classList.remove('show');
+    partModal.setAttribute('aria-hidden','true');
     document.querySelectorAll('.part-btn').forEach(b=>b.classList.remove('active'));
     svgHotspots.forEach(h=>h.classList.remove('active'));
     partShapes.forEach(s=>{s.classList.remove('glow');s.classList.remove('dim');});
-    partInfo.className='part-info empty';
-    partInfo.textContent='부분을 누르면 설명이 여기에 나타나요.';
+  }
+  document.getElementById('partModalX').addEventListener('click',closePartModal);
+  partModal.addEventListener('click',e=>{ if(e.target===partModal) closePartModal(); });
+  function resetParts(){
+    closePartModal();
   }
 
   /* ---------- scene 10: 가상 현미경 실습 ---------- */
   const lab={spec:null,coarse:0,fine:0,mag:0,bright:55,tx:0,ty:0};
   const fieldInner=document.getElementById('fieldInner');
   const specGroup=document.getElementById('specimenGroup');
-  const specHaecam=document.getElementById('lab-haecam');
-  const specJipsin=document.getElementById('lab-jipsin');
+  const specMold=document.getElementById('lab-mold');
   const viewEmpty=document.getElementById('viewEmpty');
   const labMagBadge=document.getElementById('labMagBadge');
   const panHint=document.getElementById('panHint');
@@ -1053,8 +1083,7 @@
     sfx.click();
     lab.spec=which;lab.tx=START_TX;lab.ty=START_TY;
     specGroup.style.display='';
-    specHaecam.style.display=which==='haecam'?'':'none';
-    specJipsin.style.display=which==='jipsin'?'':'none';
+    specMold.style.display='';
     viewEmpty.style.display='none';labMagBadge.style.display='';panHint.style.display='';
     document.querySelectorAll('.slide-chip').forEach(c=>c.classList.toggle('active',c.dataset.spec===which));
     updateLabView();
@@ -1084,7 +1113,7 @@
     else if(blur>3) msg='조금 보이기 시작해요. 계속 초점을 맞춰요.';
     else if(blur>0.8) msg='거의 다 됐어요! 미동나사로 선명하게 맞춰요.';
     else if(lab.mag<2) msg='선명해요! 회전판을 돌려 더 높은 배율로 관찰해 볼까요?';
-    else {msg='🎉 관찰 성공! 원생생물을 또렷하게 봤어요!';win=true;}
+    else {msg='🎉 성공! 곰팡이를 또렷하게 봤어요. 이제 진짜 관찰을 시작해요!';win=true;}
     labStatus.textContent=msg;labStatus.className='lab-status'+(win?' win':'');
     if(win && !labWon){ labWon=true; sfx.chime(); confetti(80); }
     if(!win) labWon=false;
@@ -1144,7 +1173,7 @@
   function resetLab(){
     lab.spec=null;lab.coarse=0;lab.fine=0;lab.mag=0;lab.bright=55;lab.tx=0;lab.ty=0;labWon=false;
     document.getElementById('bright').value=55;
-    specGroup.style.display='none';specHaecam.style.display='none';specJipsin.style.display='none';
+    specGroup.style.display='none';specMold.style.display='none';
     viewEmpty.style.display='';labMagBadge.style.display='none';panHint.style.display='none';
     document.querySelectorAll('.slide-chip').forEach(c=>c.classList.remove('active'));
     coarseK.__set(0);fineK.__set(0);
