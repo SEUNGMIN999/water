@@ -220,60 +220,100 @@
   .a-steps{font-size:.95rem;line-height:1.6;padding-left:1.15em}
   .a-steps li{margin-bottom:.3em}
 
-  /* ===== 활동2-1: 현미경 부품 라벨링 ===== */
-  .scope-wrap{position:relative;width:min(62vw,270px);margin:1.4vh auto 0}
-  .scope-wrap svg{width:100%;display:block;overflow:visible}
-  .hotspot{position:absolute;width:32px;height:32px;border-radius:50%;background:rgba(255,211,92,.92);
-    border:3px solid #fff;transform:translate(-50%,-50%);cursor:pointer;display:flex;align-items:center;
-    justify-content:center;font-family:var(--disp);color:var(--pond-deep);font-size:1rem;
-    box-shadow:0 4px 10px rgba(0,0,0,.4);animation:pulse 1.6s ease-in-out infinite;transition:background .2s}
-  .hotspot.found{background:var(--aqua);animation:none}
-  .info-panel{margin:2vh auto 0;background:rgba(255,255,255,.1);border:2px solid var(--aqua);border-radius:16px;
-    padding:1rem 1.4rem;max-width:56ch;min-height:4.4em;font-size:1rem;color:#fff;text-align:left}
-  .info-term{font-family:var(--disp);color:var(--sun);font-size:1.15rem;margin-bottom:.25em}
-  .progress-note{font-family:var(--hand);color:var(--aqua-soft);margin-top:1vh;font-size:1.05rem}
+  /* ===== 활동2-1: 현미경 부품 탐색 ===== */
+  .scope-explore{display:grid;grid-template-columns:1fr 1.1fr;gap:18px;align-items:start;
+    max-width:720px;width:92vw;margin:1.4vh auto 0;text-align:left}
+  @media(max-width:640px){.scope-explore{grid-template-columns:1fr}}
+  .scope-stage{background:linear-gradient(180deg,#eef6f0,#e0efe6);border-radius:20px;padding:10px;position:relative}
+  svg.scope{width:100%;height:auto;display:block;max-height:44vh;touch-action:manipulation}
+  .hotspot-svg{cursor:pointer}
+  .hotspot-svg circle{fill:var(--sun);stroke:var(--ink);stroke-width:2}
+  .hotspot-svg text{font-family:var(--disp);font-size:13px;fill:var(--ink);pointer-events:none}
+  .hotspot-svg:hover circle{fill:#ffe07a}
+  .hotspot-svg.active circle{fill:var(--pink)}
+  .hotspot-svg.active text{fill:#fff}
+  .part-shape{transition:filter .2s,opacity .2s}
+  .part-shape.dim{opacity:.35}
+  .part-shape.glow{filter:drop-shadow(0 0 6px var(--sun))}
+  .part-list{display:flex;flex-direction:column;gap:7px}
+  .part-btn{display:flex;align-items:center;gap:10px;text-align:left;width:100%;background:rgba(255,255,255,.1);
+    border:2px solid transparent;border-radius:13px;padding:9px 12px;cursor:pointer;font-family:var(--body);color:#fff;transition:border-color .15s,background .15s}
+  .part-btn:hover{background:rgba(255,255,255,.18)}
+  .part-btn.active{border-color:var(--aqua);background:rgba(40,192,163,.22)}
+  .part-num{flex:none;width:25px;height:25px;border-radius:50%;background:var(--aqua);color:var(--pond-deep);display:grid;place-items:center;font-family:var(--disp);font-size:.9rem}
+  .part-btn.active .part-num{background:var(--sun)}
+  .part-name{font-family:var(--disp);font-size:1rem}
+  .part-desc-inline{display:block;font-size:.8rem;color:var(--aqua-soft);margin-top:1px}
+  .part-info{margin-top:12px;background:rgba(40,192,163,.14);border:2px dashed var(--aqua);border-radius:14px;padding:13px;min-height:64px;color:#fff}
+  .part-info .pi-name{font-family:var(--disp);font-size:1.15rem;color:var(--sun)}
+  .part-info .pi-desc{margin-top:4px;font-size:.95rem;line-height:1.5}
+  .part-info.empty{color:var(--aqua-soft);border-color:rgba(143,227,208,.4);background:rgba(255,255,255,.06)}
 
-  /* ===== 활동2-2: 초점 맞추기 시뮬레이터 ===== */
-  .focus-stage{display:flex;gap:clamp(18px,4vw,50px);align-items:center;justify-content:center;flex-wrap:wrap;margin-top:1.6vh}
-  .side-view{position:relative;width:78px;height:230px;background:rgba(255,255,255,.06);border-radius:16px;
-    border:2px solid rgba(255,255,255,.25);overflow:hidden;flex-shrink:0}
-  .side-lens{position:absolute;top:4%;left:50%;transform:translateX(-50%);width:40px;height:26px;
-    background:#c9c9c9;border-radius:6px 6px 14px 14px;border:2px solid #8b8b8b;z-index:2}
-  .side-danger{position:absolute;top:0;left:0;right:0;height:16%;
-    background:repeating-linear-gradient(45deg,rgba(255,90,90,.4),rgba(255,90,90,.4) 6px,transparent 6px,transparent 12px)}
-  .side-stage{position:absolute;left:50%;transform:translate(-50%,-50%);width:60px;height:9px;background:var(--sun);
-    border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.4);transition:top .25s ease;z-index:1}
-  .side-slide{position:absolute;left:50%;top:-8px;transform:translateX(-50%);width:34px;height:5px;background:#e8f7f0;border-radius:2px}
-  .eyepiece-view{position:relative;width:min(46vw,230px);aspect-ratio:1/1;border-radius:50%;overflow:hidden;flex-shrink:0;
-    background:radial-gradient(circle at 42% 38%,#1a8a76 0%,#0c5c50 55%,#063f38 100%);
-    box-shadow:0 0 0 8px rgba(255,255,255,.08),0 0 0 18px rgba(255,255,255,.05),inset 0 0 50px rgba(0,0,0,.5)}
-  .eyepiece-view svg{position:absolute;inset:0;width:100%;height:100%;transition:filter .2s ease}
-  .knob-controls{display:flex;flex-direction:column;gap:1.4rem;align-items:center}
-  .knob{display:flex;flex-direction:column;align-items:center;gap:.5rem}
-  .knob-label{font-family:var(--disp);color:var(--sun);font-size:1.05rem}
-  .dial-group{display:flex;align-items:center;gap:.7rem}
-  .dial{width:66px;height:66px;border-radius:50%;position:relative;flex-shrink:0;
-    background:radial-gradient(circle at 34% 30%,#d8dedd,#8b9494 72%);
-    border:4px solid var(--sun);box-shadow:0 6px 14px rgba(0,0,0,.35);
-    transition:transform .18s ease}
-  .dial::after{content:"";position:absolute;top:6px;left:50%;width:4px;height:42%;background:#2b2b2b;
-    border-radius:2px;transform:translateX(-50%);pointer-events:none}
-  .dial.fine{width:48px;height:48px;border-color:#fff}
-  .dial-arrows{display:flex;flex-direction:column;gap:.4rem}
-  .dial-arrow{width:40px;height:34px;border-radius:10px;cursor:pointer;padding:0;
-    background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.35);
-    font-size:1.1rem;line-height:1;transition:.12s;-webkit-tap-highlight-color:transparent}
-  .dial-arrow:hover{background:rgba(255,255,255,.26)}
-  .dial-arrow:active{transform:scale(.9);background:var(--sun);color:var(--pond-deep)}
-  .focus-status{font-family:var(--hand);font-size:clamp(1.05rem,2.4vw,1.5rem);color:#fff;margin-top:1.2vh;min-height:1.4em}
+  /* ===== 활동2-2: 가상 실습실 ===== */
+  .lab{display:grid;grid-template-columns:270px 1fr;gap:20px;align-items:start;max-width:760px;width:92vw;margin:1.2vh auto 0;text-align:left}
+  @media(max-width:680px){.lab{grid-template-columns:1fr}}
+  .view-col{display:flex;flex-direction:column;align-items:center;gap:11px}
+  .scope-view{width:240px;height:240px;max-width:74vw;max-height:74vw;border-radius:50%;overflow:hidden;position:relative;
+    background:radial-gradient(circle at 50% 42%,#fbf6df 0,#f2ead0 62%,#d8cfae 100%);
+    box-shadow:inset 0 0 0 10px #14201d,inset 0 0 26px rgba(0,0,0,.35),0 0 0 6px #3a4f48;
+    cursor:grab;touch-action:none;user-select:none;flex-shrink:0}
+  .scope-view.grab{cursor:grabbing}
+  .field-inner{width:100%;height:100%;transition:filter .1s ease}
+  .field-inner svg{width:100%;height:100%;display:block}
+  .view-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#8a7f5f;font-family:var(--disp);padding:0 30px;font-size:.98rem}
+  .lab-mag-badge{position:absolute;left:12px;top:12px;background:rgba(13,51,46,.75);color:var(--sun);font-family:var(--disp);font-size:.85rem;padding:3px 12px;border-radius:100px}
+  .pan-hint{position:absolute;right:12px;bottom:12px;background:rgba(13,51,46,.6);color:#fff;font-size:.72rem;padding:3px 10px;border-radius:100px}
+  .lab-status{font-family:var(--disp);font-size:1rem;text-align:center;min-height:1.4em;color:var(--aqua-soft);max-width:240px}
+  .lab-status.win{color:var(--sun)}
+  .controls{display:flex;flex-direction:column;gap:14px}
+  .ctl-box{background:rgba(255,255,255,.1);border-radius:15px;padding:13px 14px}
+  .ctl-title{font-family:var(--disp);font-size:.98rem;margin-bottom:9px;display:flex;align-items:center;gap:7px;color:#fff}
+  .ctl-title .tag{font-size:.72rem;background:var(--aqua);color:var(--pond-deep);padding:1px 8px;border-radius:100px;font-family:var(--body)}
+  .slide-tray{display:flex;gap:10px}
+  .slide-chip{flex:1;border:2px solid transparent;background:rgba(255,255,255,.9);border-radius:12px;padding:8px;cursor:pointer;text-align:center;font-family:var(--disp);font-size:.9rem;color:var(--ink);transition:border-color .15s,transform .1s}
+  .slide-chip:active{transform:translateY(1px)}
+  .slide-chip.active{border-color:var(--sun);background:#fff}
+  .slide-chip svg{display:block;margin:0 auto 4px}
+  .knob-row{display:flex;gap:18px;justify-content:space-around}
+  .knob-unit{text-align:center}
+  .knob{width:70px;height:70px;border-radius:50%;margin:0 auto 6px;cursor:grab;touch-action:none;position:relative;
+    background:conic-gradient(#0d332e 0 10deg,#20463d 10deg 20deg);
+    box-shadow:inset 0 0 0 6px #14322b,0 4px 10px rgba(0,0,0,.25);display:grid;place-items:center}
+  .knob:active{cursor:grabbing}
+  .knob.small{width:54px;height:54px}
+  .knob-face{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;position:relative}
+  .knob-ind{position:absolute;top:6px;left:50%;transform:translateX(-50%);width:7px;height:15px;border-radius:4px}
+  .knob-core{width:25px;height:25px;border-radius:50%;background:#2f5a4f;box-shadow:inset 0 0 0 3px #14322b}
+  .knob-lbl{font-family:var(--disp);font-size:.88rem;color:#fff}
+  .knob-lbl small{display:block;color:var(--aqua-soft);font-family:var(--body);font-size:.72rem}
+  .knob.coarse .knob-ind{background:var(--pink)}
+  .knob.fine .knob-ind{background:var(--aqua)}
+  .mag-row{display:flex;gap:8px}
+  .mag-btn{flex:1;font-family:var(--disp);border:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:#fff;
+    padding:8px 4px;border-radius:12px;cursor:pointer;font-size:.9rem;line-height:1.2;transition:background .15s,color .15s}
+  .mag-btn small{display:block;font-family:var(--body);font-size:.72rem;color:var(--aqua-soft)}
+  .mag-btn.active{background:var(--aqua);color:var(--pond-deep);border-color:var(--aqua)}
+  .mag-btn.active small{color:var(--pond-deep)}
+  #bright{width:100%;accent-color:var(--sun)}
+  .check-list{display:flex;flex-direction:column;gap:7px;margin-top:2px}
+  .check-item{display:flex;align-items:center;gap:9px;font-size:.92rem;color:var(--aqua-soft)}
+  .check-box{width:21px;height:21px;border-radius:7px;border:2px solid rgba(143,227,208,.5);flex:none;display:grid;place-items:center;font-family:var(--disp);color:var(--pond-deep);transition:background .2s,border-color .2s}
+  .check-item.done{color:#fff}
+  .check-item.done .check-box{background:var(--aqua);border-color:var(--aqua)}
+  .reset-btn{margin-top:6px;font-family:var(--disp);border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.1);color:#fff;padding:8px 18px;border-radius:100px;cursor:pointer;width:100%}
+  .reset-btn:active{transform:translateY(1px)}
 
   /* ===== AI 챗봇 웹앱 연결 카드 (외부 페이지로 이동) ===== */
   .chat-link-card{background:rgba(255,255,255,.08);border:2px dashed var(--aqua);border-radius:20px;
-    padding:1.4rem 1.7rem;max-width:560px;width:88vw;margin:1.8vh auto 0;text-align:center}
+    padding:1.4rem 1.7rem;max-width:560px;width:88vw;margin:1.8vh auto 0;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:.4em}
   .chat-link-icon{font-size:2.4rem;margin-bottom:.3em}
-  .chat-link-steps{text-align:left;display:inline-block;font-size:.98rem;line-height:1.7;
-    color:#fff;margin:0 auto .6em;padding-left:1.3em}
+  .chat-link-steps{text-align:left;display:block;font-size:.98rem;line-height:1.7;
+    color:#fff;margin:0 auto .3em;padding-left:1.3em;max-width:100%}
   .chat-link-text{font-size:.98rem;line-height:1.6;color:#fff;margin-bottom:.8em}
+  .chat-link-card .btn{display:inline-block;max-width:100%;box-sizing:border-box;
+    font-size:clamp(1rem,2.2vw,1.4rem);padding:.6em 1.4em;margin-top:.2em;
+    white-space:nowrap;text-decoration:none;text-align:center}
 
   /* ===== AI 챗봇 UI (활동2-3, 활동3 공용) ===== */
   .chat-panel{background:rgba(255,255,255,.08);border:2px solid var(--aqua);border-radius:20px;
@@ -531,127 +571,165 @@
   <!-- SCENE 9: 활동2-1 현미경 부품 알아보기 -->
   <section class="scene" data-scene="9">
     <div class="eyebrow">활동2 · 현미경과 친해지기</div>
-    <h1 class="title compact">현미경의 이름표를 눌러봐요</h1>
-    <div class="scope-wrap">
-      <svg viewBox="0 0 260 380" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#6b7580"/><stop offset=".45" stop-color="#aeb8c0"/>
-            <stop offset=".55" stop-color="#c4ccd2"/><stop offset="1" stop-color="#5c656e"/>
-          </linearGradient>
-          <linearGradient id="metalDark" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#3d4750"/><stop offset=".5" stop-color="#6e7882"/><stop offset="1" stop-color="#333b42"/>
-          </linearGradient>
-          <radialGradient id="knobGrad" cx="38%" cy="34%" r="70%">
-            <stop offset="0" stop-color="#dfe4e8"/><stop offset="1" stop-color="#7c848c"/>
-          </radialGradient>
-        </defs>
-
-        <!-- 받침대 (묵직한 말굽형) -->
-        <path d="M40 372 Q40 330 80 330 L180 330 Q220 330 220 372 Z" fill="url(#metalDark)" stroke="#242b31" stroke-width="3"/>
-        <ellipse cx="130" cy="330" rx="70" ry="12" fill="#4a545d" stroke="#242b31" stroke-width="2"/>
-
-        <!-- 팔(암): 받침대에서 올라와 위로 굽은 형태 -->
-        <path d="M150 330 L150 210 Q150 150 120 130 L120 96" fill="none" stroke="url(#metalDark)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-
-        <!-- 조명부 기둥 + 반사경 -->
-        <rect x="120" y="300" width="16" height="26" rx="3" fill="#5c656e" stroke="#333b42" stroke-width="2"/>
-        <ellipse cx="128" cy="300" rx="20" ry="9" fill="#eef4f6" stroke="#8b96a0" stroke-width="2.5"/>
-        <ellipse cx="128" cy="300" rx="12" ry="5" fill="#cfe0e6"/>
-
-        <!-- 재물대 (넓은 판 + 표본 구멍 + 클립) -->
-        <rect x="60" y="250" width="120" height="20" rx="4" fill="url(#metal)" stroke="#4a545d" stroke-width="2.5"/>
-        <ellipse cx="120" cy="260" rx="15" ry="6" fill="#2b3238"/>
-        <rect x="100" y="244" width="40" height="8" rx="2" fill="#eaf4ef" stroke="#b8c4c0" stroke-width="1.5"/>
-        <path d="M92 250 L92 240 Q92 236 96 236 L108 236" fill="none" stroke="#5c656e" stroke-width="3.5" stroke-linecap="round"/>
-        <path d="M148 250 L148 240 Q148 236 144 236 L132 236" fill="none" stroke="#5c656e" stroke-width="3.5" stroke-linecap="round"/>
-
-        <!-- 조리개/집광기 (재물대 아래) -->
-        <circle cx="120" cy="282" r="8" fill="#4a545d" stroke="#333b42" stroke-width="2"/>
-
-        <!-- 조동나사(큰) + 미동나사(작은) : 팔 옆에 겹쳐 배치 -->
-        <circle cx="150" cy="222" r="20" fill="url(#knobGrad)" stroke="#5c656e" stroke-width="3"/>
-        <g stroke="#7c848c" stroke-width="2">
-          <line x1="150" y1="204" x2="150" y2="210"/><line x1="150" y1="234" x2="150" y2="240"/>
-          <line x1="132" y1="222" x2="138" y2="222"/><line x1="162" y1="222" x2="168" y2="222"/>
-        </g>
-        <circle cx="150" cy="222" r="7" fill="#b9c0c7"/>
-        <circle cx="150" cy="200" r="10.5" fill="url(#knobGrad)" stroke="#5c656e" stroke-width="2.5"/>
-        <circle cx="150" cy="200" r="4" fill="#b9c0c7"/>
-
-        <!-- 회전판(리볼버) + 대물렌즈 3개 -->
-        <ellipse cx="120" cy="112" rx="26" ry="12" fill="url(#metal)" stroke="#4a545d" stroke-width="2.5"/>
-        <g stroke="#4a545d" stroke-width="2">
-          <rect x="103" y="116" width="12" height="30" rx="3" fill="#8b96a0" transform="rotate(-16 109 116)"/>
-          <rect x="115" y="120" width="12" height="34" rx="3" fill="#c4ccd2"/>
-          <rect x="129" y="116" width="12" height="28" rx="3" fill="#8b96a0" transform="rotate(16 135 116)"/>
-        </g>
-
-        <!-- 경통 -->
-        <rect x="108" y="60" width="24" height="52" rx="6" fill="url(#metal)" stroke="#4a545d" stroke-width="2.5"/>
-
-        <!-- 접안렌즈 -->
-        <rect x="104" y="30" width="32" height="34" rx="8" fill="url(#metal)" stroke="#4a545d" stroke-width="2.5"/>
-        <ellipse cx="120" cy="30" rx="17" ry="7" fill="#2b3238" stroke="#4a545d" stroke-width="2"/>
-        <ellipse cx="120" cy="29" rx="10" ry="4" fill="#4a545d"/>
-      </svg>
-      <button class="hotspot" style="left:46%;top:8%" data-term="eyepiece"></button>
-      <button class="hotspot" style="left:46%;top:30%" data-term="nosepiece"></button>
-      <button class="hotspot" style="left:46%;top:67%" data-term="stage"></button>
-      <button class="hotspot" style="left:58%;top:58.5%" data-term="coarse"></button>
-      <button class="hotspot" style="left:58%;top:52.5%" data-term="fine"></button>
-      <button class="hotspot" style="left:50%;top:93%" data-term="base"></button>
-    </div>
-    <div class="info-panel" id="scopeInfo">
-      <div class="chat-empty">위 그림의 노란 점을 눌러서 현미경 부품 이름을 알아봐요!</div>
-    </div>
-    <p class="progress-note" id="scopeProgress">0 / 6 확인했어요</p>
-    <button class="btn wobble" data-next style="margin-top:2vh">초점 맞춰보기 →</button>
-  </section>
-
-  <!-- SCENE 10: 활동2-2 초점 맞추기 시뮬레이터 -->
-  <section class="scene" data-scene="10">
-    <div class="eyebrow">활동2 · 조동나사와 미동나사</div>
-    <h1 class="title compact">재물대를 움직여 초점을 맞춰봐요</h1>
-    <div class="focus-stage">
-      <div class="side-view">
-        <div class="side-danger"></div>
-        <div class="side-lens"></div>
-        <div class="side-stage" id="sideStage"><div class="side-slide"></div></div>
-      </div>
-      <div class="eyepiece-view">
-        <svg id="focusSample" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
-          <path d="M40 64 C40 24 90 12 130 22 C175 34 185 74 150 100 C110 122 55 112 42 82 Z" fill="#d8c79c" stroke="#b8a271" stroke-width="3"/>
-          <ellipse cx="95" cy="64" rx="30" ry="16" fill="#c2ad7d" opacity=".5"/>
-          <circle cx="112" cy="52" r="11" fill="#fff"/><circle cx="140" cy="54" r="11" fill="#fff"/>
-          <circle cx="115" cy="54" r="5" fill="#20303a"/><circle cx="143" cy="56" r="5" fill="#20303a"/>
+    <h1 class="title compact">현미경의 각 부분을 눌러봐요</h1>
+    <div class="scope-explore">
+      <div class="scope-stage">
+        <svg class="scope" viewBox="0 0 300 430" id="scopeSvg" role="img" aria-label="광학 현미경 그림">
+          <g class="part-shape" data-shape="base">
+            <path d="M70 396 Q70 412 92 414 L208 414 Q230 412 230 396 Q230 384 150 382 Q70 384 70 396 Z" fill="#0d332e"/>
+            <rect x="120" y="360" width="60" height="26" rx="9" fill="#2f5a4f"/>
+          </g>
+          <path class="part-shape" data-shape="arm" d="M180 378 L180 250 C180 168 182 150 152 138 L152 120 L176 122 C210 132 214 168 214 250 L214 378 Z" fill="#2f5a4f"/>
+          <rect class="part-shape" data-shape="tube" x="138" y="96" width="28" height="118" rx="12" fill="#2f5a4f"/>
+          <g class="part-shape" data-shape="eyepiece">
+            <rect x="133" y="62" width="38" height="40" rx="9" fill="#0d332e"/>
+            <ellipse cx="152" cy="62" rx="22" ry="7" fill="#3a6b5d"/>
+          </g>
+          <circle class="part-shape" data-shape="nose" cx="152" cy="214" r="22" fill="#0d332e"/>
+          <g class="part-shape" data-shape="objective">
+            <rect x="139" y="228" width="13" height="38" rx="5" fill="#c9d3cf"/>
+            <rect x="139" y="258" width="13" height="8" rx="3" fill="#ffcf4d"/>
+            <rect x="158" y="228" width="12" height="24" rx="5" fill="#9fb0aa"/>
+          </g>
+          <g class="part-shape" data-shape="stage">
+            <rect x="96" y="270" width="112" height="16" rx="6" fill="#2f5a4f"/>
+            <circle cx="152" cy="278" r="7" fill="#ffe6a0"/>
+            <rect x="126" y="266" width="46" height="8" rx="2" fill="#f6f1e2"/>
+            <circle cx="149" cy="270" r="2.4" fill="#57b98a"/>
+            <rect x="120" y="268" width="12" height="5" rx="2" fill="#0d332e"/>
+            <rect x="170" y="268" width="12" height="5" rx="2" fill="#0d332e"/>
+          </g>
+          <g class="part-shape" data-shape="light">
+            <rect x="142" y="296" width="20" height="20" rx="6" fill="#2f5a4f"/>
+            <circle cx="152" cy="296" r="9" fill="#ffcf4d"/>
+            <circle cx="152" cy="296" r="4" fill="#fff3cf"/>
+          </g>
+          <g class="part-shape" data-shape="coarse">
+            <circle cx="214" cy="250" r="21" fill="#0d332e"/>
+            <circle cx="214" cy="250" r="21" fill="none" stroke="#57b98a" stroke-width="3" stroke-dasharray="4 5"/>
+            <circle cx="214" cy="250" r="8" fill="#2f5a4f"/>
+          </g>
+          <g class="part-shape" data-shape="fine">
+            <circle cx="214" cy="290" r="13" fill="#0d332e"/>
+            <circle cx="214" cy="290" r="13" fill="none" stroke="#e0895a" stroke-width="3" stroke-dasharray="3 4"/>
+          </g>
+          <g class="hotspot-svg" data-part="eyepiece" transform="translate(190,70)"><circle r="13"/><text text-anchor="middle" dy="4.5">1</text></g>
+          <g class="hotspot-svg" data-part="nose" transform="translate(190,206)"><circle r="13"/><text text-anchor="middle" dy="4.5">2</text></g>
+          <g class="hotspot-svg" data-part="objective" transform="translate(108,238)"><circle r="13"/><text text-anchor="middle" dy="4.5">3</text></g>
+          <g class="hotspot-svg" data-part="stage" transform="translate(90,282)"><circle r="13"/><text text-anchor="middle" dy="4.5">4</text></g>
+          <g class="hotspot-svg" data-part="light" transform="translate(112,310)"><circle r="13"/><text text-anchor="middle" dy="4.5">5</text></g>
+          <g class="hotspot-svg" data-part="coarse" transform="translate(252,242)"><circle r="13"/><text text-anchor="middle" dy="4.5">6</text></g>
+          <g class="hotspot-svg" data-part="fine" transform="translate(254,296)"><circle r="13"/><text text-anchor="middle" dy="4.5">7</text></g>
+          <g class="hotspot-svg" data-part="base" transform="translate(96,402)"><circle r="13"/><text text-anchor="middle" dy="4.5">8</text></g>
         </svg>
       </div>
-      <div class="knob-controls">
-        <div class="knob">
-          <div class="knob-label">조동나사</div>
-          <div class="dial-group">
-            <div class="dial coarse" id="coarseDial"></div>
-            <div class="dial-arrows">
-              <button class="dial-arrow" data-dial="coarse" data-dir="1" aria-label="조동나사 위로">▲</button>
-              <button class="dial-arrow" data-dial="coarse" data-dir="-1" aria-label="조동나사 아래로">▼</button>
+      <div class="scope-side">
+        <div class="part-list" id="partList"></div>
+        <div class="part-info empty" id="partInfo">부분을 누르면 설명이 여기에 나타나요.</div>
+      </div>
+    </div>
+    <button class="btn wobble" data-next style="margin-top:1.6vh">초점 맞춰보기 →</button>
+  </section>
+
+  <!-- SCENE 10: 활동2-2 가상 현미경 실습 -->
+  <section class="scene" data-scene="10">
+    <div class="eyebrow">활동2 · 가상 현미경 실습</div>
+    <h1 class="title compact">직접 초점을 맞춰 관찰해봐요</h1>
+    <div class="lab">
+      <div class="view-col">
+        <div class="scope-view" id="scopeView">
+          <div class="field-inner" id="fieldInner">
+            <svg viewBox="0 0 230 230">
+              <g id="specimenGroup" style="display:none">
+                <g id="lab-haecam" style="display:none" transform="translate(115,115)">
+                  <g transform="rotate(-16)">
+                    <rect x="-52" y="-14" width="104" height="28" rx="14" fill="#e8f6ec" stroke="#57b98a" stroke-width="2"/>
+                    <path d="M-46 0 Q-34 -10 -22 0 T2 0 T26 0 T46 0" fill="none" stroke="#2e8b63" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M-46 0 Q-34 10 -22 0 T2 0 T26 0 T46 0" fill="none" stroke="#57b98a" stroke-width="6" stroke-linecap="round" opacity=".7"/>
+                  </g>
+                </g>
+                <g id="lab-jipsin" style="display:none" transform="translate(115,115)">
+                  <g transform="rotate(22)">
+                    <ellipse cx="0" cy="0" rx="46" ry="26" fill="#f8e4d7" stroke="#e0895a" stroke-width="2"/>
+                    <path d="M-20 -6 Q-2 5 22 -2" fill="none" stroke="#c56a3d" stroke-width="2.5"/>
+                    <circle cx="-15" cy="7" r="4.5" fill="#f2c3a3"/>
+                    <circle cx="18" cy="9" r="4.5" fill="#f2c3a3"/>
+                    <ellipse cx="2" cy="-3" rx="8" ry="5" fill="#e0a985" opacity=".55"/>
+                    <g stroke="#e0895a" stroke-width="1.7" stroke-linecap="round">
+                      <line x1="-46" y1="-6" x2="-55" y2="-9"/><line x1="-44" y1="5" x2="-53" y2="8"/>
+                      <line x1="-33" y1="-19" x2="-38" y2="-28"/><line x1="0" y1="-26" x2="0" y2="-35"/>
+                      <line x1="33" y1="-19" x2="38" y2="-28"/><line x1="46" y1="-4" x2="55" y2="-6"/>
+                      <line x1="44" y1="7" x2="53" y2="10"/><line x1="33" y1="19" x2="38" y2="28"/>
+                      <line x1="0" y1="26" x2="0" y2="35"/><line x1="-33" y1="19" x2="-38" y2="28"/>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <div class="view-empty" id="viewEmpty">표본을 재물대에 올려 주세요 👇</div>
+            <div class="lab-mag-badge" id="labMagBadge" style="display:none">×40</div>
+            <div class="pan-hint" id="panHint" style="display:none">↕ 드래그로 이동</div>
+          </div>
+          <div class="lab-status" id="labStatus">먼저 표본을 골라 올려 주세요.</div>
+        </div>
+
+        <div class="controls">
+          <div class="ctl-box">
+            <div class="ctl-title">① 표본 올리기 <span class="tag">재물대</span></div>
+            <div class="slide-tray">
+              <button class="slide-chip" data-spec="haecam">
+                <svg viewBox="0 0 60 34" width="52" height="30"><rect x="4" y="6" width="52" height="22" rx="3" fill="#f6f1e2" stroke="#c9bd97" stroke-width="1.5"/><path d="M14 17 q6 -6 12 0 t12 0" stroke="#2e8b63" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+                해캄
+              </button>
+              <button class="slide-chip" data-spec="jipsin">
+                <svg viewBox="0 0 60 34" width="52" height="30"><rect x="4" y="6" width="52" height="22" rx="3" fill="#f6f1e2" stroke="#c9bd97" stroke-width="1.5"/><ellipse cx="30" cy="17" rx="13" ry="7" fill="#f8e4d7" stroke="#e0895a" stroke-width="1.5"/></svg>
+                짚신벌레
+              </button>
             </div>
           </div>
-        </div>
-        <div class="knob">
-          <div class="knob-label">미동나사</div>
-          <div class="dial-group">
-            <div class="dial fine" id="fineDial"></div>
-            <div class="dial-arrows">
-              <button class="dial-arrow" data-dial="fine" data-dir="1" aria-label="미동나사 위로">▲</button>
-              <button class="dial-arrow" data-dial="fine" data-dir="-1" aria-label="미동나사 아래로">▼</button>
+
+          <div class="ctl-box">
+            <div class="ctl-title">② 초점 맞추기 <span class="tag">나사를 돌려요</span></div>
+            <div class="knob-row">
+              <div class="knob-unit">
+                <div class="knob coarse" id="coarseKnob"><div class="knob-face"><span class="knob-ind"></span><div class="knob-core"></div></div></div>
+                <div class="knob-lbl">조동나사<small>대강 맞춰요</small></div>
+              </div>
+              <div class="knob-unit">
+                <div class="knob fine small" id="fineKnob"><div class="knob-face"><span class="knob-ind"></span><div class="knob-core"></div></div></div>
+                <div class="knob-lbl">미동나사<small>선명하게</small></div>
+              </div>
             </div>
+          </div>
+
+          <div class="ctl-box">
+            <div class="ctl-title">③ 배율 바꾸기 <span class="tag">회전판</span></div>
+            <div class="mag-row">
+              <button class="mag-btn active" data-mag="0">저배율<small>×40</small></button>
+              <button class="mag-btn" data-mag="1">중배율<small>×100</small></button>
+              <button class="mag-btn" data-mag="2">고배율<small>×400</small></button>
+            </div>
+          </div>
+
+          <div class="ctl-box">
+            <div class="ctl-title">④ 밝기 조절 <span class="tag">조리개</span></div>
+            <input type="range" id="bright" min="0" max="100" value="55">
+          </div>
+
+          <div class="ctl-box">
+            <div class="ctl-title">관찰 체크리스트</div>
+            <div class="check-list">
+              <div class="check-item" id="chk-load"><span class="check-box">✓</span>표본을 재물대에 올렸어요</div>
+              <div class="check-item" id="chk-center"><span class="check-box">✓</span>표본을 가운데로 옮겼어요</div>
+              <div class="check-item" id="chk-focus"><span class="check-box">✓</span>초점을 선명하게 맞췄어요</div>
+              <div class="check-item" id="chk-high"><span class="check-box">✓</span>고배율로 자세히 관찰했어요</div>
+            </div>
+            <button class="reset-btn" id="resetLab">처음부터 다시 하기 ↺</button>
           </div>
         </div>
       </div>
     </div>
-    <p class="focus-status" id="focusStatus">화살표(▲▼)를 눌러 나사를 돌려보세요! 조동나사로 크게, 미동나사로 세밀하게</p>
-    <button class="btn wobble" data-next style="margin-top:1vh">실제로 관찰해보기 →</button>
+    <button class="btn wobble" data-next style="margin-top:1.6vh">실제로 관찰해보기 →</button>
   </section>
 
   <!-- SCENE 11: 활동2-3 관찰결과 발표 + AI 챗봇 개선 -->
@@ -919,100 +997,159 @@
     scoopVideo.addEventListener('ended',()=>{ if(idx===1) next(); });
   }
 
-  /* ---------- scene 9: 현미경 부품 라벨링 ---------- */
-  const scopeTerms={
-    eyepiece:{name:'접안렌즈',desc:'눈을 대고 보는 렌즈예요. 표본의 모습을 확대해서 보여줘요.'},
-    nosepiece:{name:'회전판·대물렌즈',desc:'표본에 가장 가까운 렌즈예요. 돌리면 배율(확대 정도)을 바꿀 수 있어요.'},
-    stage:{name:'재물대',desc:'관찰할 표본(영구 표본)을 올려놓는 판이에요.'},
-    coarse:{name:'조동나사',desc:'재물대를 크게 움직여서 전체적인 초점을 맞출 때 사용해요.'},
-    fine:{name:'미동나사',desc:'재물대를 아주 조금씩 움직여서 초점을 선명하게 다듬을 때 사용해요.'},
-    base:{name:'받침대',desc:'현미경을 안정적으로 지지해주는 다리 부분이에요.'}
-  };
-  const scopeInfo=document.getElementById('scopeInfo');
-  const scopeProgress=document.getElementById('scopeProgress');
-  const hotspots=[...document.querySelectorAll('.hotspot')];
-  hotspots.forEach(h=>{
-    h.addEventListener('click',()=>{
-      sfx.click();
-      const t=scopeTerms[h.dataset.term];
-      scopeInfo.innerHTML='<div class="info-term">'+t.name+'</div>'+t.desc;
-      if(!h.classList.contains('found')){ h.classList.add('found'); sfx.pop(1); }
-      const found=hotspots.filter(x=>x.classList.contains('found')).length;
-      scopeProgress.textContent=found+' / '+hotspots.length+' 확인했어요'+(found===hotspots.length?' 🎉':'');
-      if(found===hotspots.length){ confetti(40); }
-    });
+  /* ---------- scene 9: 현미경 부품 탐색 (그림 하이라이트 연동) ---------- */
+  const PARTS=[
+    {id:'eyepiece',n:1,name:'접안렌즈',desc:'눈을 대고 들여다보는 렌즈예요. 배율이 적혀 있어요.'},
+    {id:'nose',n:2,name:'회전판',desc:'돌려서 대물렌즈를 바꿔요. 배율을 높이거나 낮출 때 사용해요.'},
+    {id:'objective',n:3,name:'대물렌즈',desc:'표본에 가장 가까운 렌즈예요. 배율이 다른 렌즈가 여러 개 달려 있어요.'},
+    {id:'stage',n:4,name:'재물대',desc:'표본(프레파라트)을 올려놓는 평평한 판이에요. 가운데 구멍으로 빛이 지나가요.'},
+    {id:'light',n:5,name:'조명·조리개',desc:'빛을 비춰 표본을 밝게 해 줘요. 밝기를 조절할 수도 있어요.'},
+    {id:'coarse',n:6,name:'조동나사',desc:'크게 돌려서 초점을 대강 맞춰요. 가장 먼저 사용하는 나사예요.'},
+    {id:'fine',n:7,name:'미동나사',desc:'조금씩 돌려서 상을 선명하게 맞춰요. 조동나사 다음에 사용해요.'},
+    {id:'base',n:8,name:'받침대',desc:'현미경 전체를 안전하게 받쳐 주는 바닥이에요.'},
+  ];
+  const partList=document.getElementById('partList');
+  const partInfo=document.getElementById('partInfo');
+  const partShapes=[...document.querySelectorAll('.part-shape')];
+  const svgHotspots=[...document.querySelectorAll('.hotspot-svg')];
+  PARTS.forEach(p=>{
+    const b=document.createElement('button');b.className='part-btn';b.dataset.part=p.id;
+    b.innerHTML='<span class="part-num">'+p.n+'</span><span><span class="part-name">'+p.name+'</span><span class="part-desc-inline">'+p.desc.split('.')[0]+'.</span></span>';
+    b.addEventListener('click',()=>selectPart(p.id));partList.appendChild(b);
   });
-  function resetHotspots(){
-    hotspots.forEach(h=>h.classList.remove('found'));
-    scopeInfo.innerHTML='<div class="chat-empty">위 그림의 노란 점을 눌러서 현미경 부품 이름을 알아봐요!</div>';
-    scopeProgress.textContent='0 / '+hotspots.length+' 확인했어요';
+  svgHotspots.forEach(h=>h.addEventListener('click',()=>selectPart(h.dataset.part)));
+  function selectPart(id){
+    sfx.click();
+    const p=PARTS.find(x=>x.id===id);
+    document.querySelectorAll('.part-btn').forEach(b=>b.classList.toggle('active',b.dataset.part===id));
+    svgHotspots.forEach(h=>h.classList.toggle('active',h.dataset.part===id));
+    partShapes.forEach(s=>{const on=s.dataset.shape===id;s.classList.toggle('glow',on);s.classList.toggle('dim',!on);});
+    partInfo.className='part-info';
+    partInfo.innerHTML='<div class="pi-name">'+p.n+'. '+p.name+'</div><div class="pi-desc">'+p.desc+'</div>';
+  }
+  function resetParts(){
+    document.querySelectorAll('.part-btn').forEach(b=>b.classList.remove('active'));
+    svgHotspots.forEach(h=>h.classList.remove('active'));
+    partShapes.forEach(s=>{s.classList.remove('glow');s.classList.remove('dim');});
+    partInfo.className='part-info empty';
+    partInfo.textContent='부분을 누르면 설명이 여기에 나타나요.';
   }
 
-  /* ---------- scene 10: 초점 맞추기 시뮬레이터 ---------- */
-  let stagePos=90; // 0=렌즈에 닿음(위험) ~ 100=멀리 내려감
-  const TARGET=19, TARGET_RANGE=3, CRASH_AT=14;
-  const sideStage=document.getElementById('sideStage');
-  const focusSample=document.getElementById('focusSample');
-  const focusStatus=document.getElementById('focusStatus');
-  let focusDone=false;
-  function updateFocusView(){
-    sideStage.style.top=(12+stagePos*0.76)+'%';
-    const dist=Math.abs(stagePos-TARGET);
-    const blur=Math.min(14,dist*0.55);
-    focusSample.style.filter='blur('+blur+'px)';
-    if(dist<=TARGET_RANGE){
-      if(!focusDone){ focusDone=true; sfx.chime(); confetti(50); }
-      focusStatus.textContent='선명해요! 초점이 딱 맞았어요 🔍✨';
-    } else if(dist<=TARGET_RANGE+10){
-      focusStatus.textContent='거의 다 왔어요! 미동나사로 살짝만 더 조절해봐요';
-    } else if(dist<=TARGET_RANGE+30){
-      focusStatus.textContent='조금 더 조절해봐요';
-    } else {
-      focusStatus.textContent='많이 흐려요… 조동나사를 크게 돌려봐요';
-    }
-  }
-  function moveStage(delta){
-    const next=stagePos+delta;
-    if(next<CRASH_AT){
-      // 렌즈에 닿기 직전에서 멈춤 (초기화하지 않고 그대로 막힘)
-      stagePos=CRASH_AT;
-      document.body.classList.remove('shake'); void document.body.offsetWidth; document.body.classList.add('shake');
-      sfx.pop(0);
-      focusStatus.textContent='더는 못 내려가요! 대물렌즈에 닿을 것 같아요 😳 (미동나사로 조절해봐요)';
-      lastTickAt=stagePos;
-    } else {
-      stagePos=Math.min(100,next);
-      if(Math.abs(stagePos-lastTickAt)>=4){ sfx.tick(); lastTickAt=stagePos; }
-    }
-    updateFocusView();
-  }
-  let lastTickAt=stagePos;
+  /* ---------- scene 10: 가상 현미경 실습 ---------- */
+  const lab={spec:null,coarse:0,fine:0,mag:0,bright:55,tx:0,ty:0};
+  const fieldInner=document.getElementById('fieldInner');
+  const specGroup=document.getElementById('specimenGroup');
+  const specHaecam=document.getElementById('lab-haecam');
+  const specJipsin=document.getElementById('lab-jipsin');
+  const viewEmpty=document.getElementById('viewEmpty');
+  const labMagBadge=document.getElementById('labMagBadge');
+  const panHint=document.getElementById('panHint');
+  const labStatus=document.getElementById('labStatus');
+  const scopeView=document.getElementById('scopeView');
+  const MAG_F=[1,1.7,2.7], MAG_MAXBLUR=[11,13.5,16.5], MAG_LABEL=['×40','×100','×400'];
+  const START_TX=54, START_TY=-40;
+  let labWon=false;
 
-  /* 조동나사·미동나사: 화살표를 누르면 다이얼이 돌아가며 재물대가 움직임 */
-  const coarseDial=document.getElementById('coarseDial');
-  const fineDial=document.getElementById('fineDial');
-  let coarseRot=0, fineRot=0;
-  document.querySelectorAll('.dial-arrow').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const dir=parseInt(btn.dataset.dir,10);
-      if(btn.dataset.dial==='coarse'){
-        coarseRot+=dir*32;
-        coarseDial.style.transform='rotate('+coarseRot+'deg)';
-        moveStage(-dir*13);   // 조동나사: 큰 폭 → 정밀 조절 불가
-      } else {
-        fineRot+=dir*20;
-        fineDial.style.transform='rotate('+fineRot+'deg)';
-        moveStage(-dir*3);    // 미동나사: 작은 폭 → 정밀 초점용
-      }
+  function loadSpec(which){
+    sfx.click();
+    lab.spec=which;lab.tx=START_TX;lab.ty=START_TY;
+    specGroup.style.display='';
+    specHaecam.style.display=which==='haecam'?'':'none';
+    specJipsin.style.display=which==='jipsin'?'':'none';
+    viewEmpty.style.display='none';labMagBadge.style.display='';panHint.style.display='';
+    document.querySelectorAll('.slide-chip').forEach(c=>c.classList.toggle('active',c.dataset.spec===which));
+    updateLabView();
+  }
+  function updateLabView(){
+    const magF=MAG_F[lab.mag];
+    document.querySelectorAll('.mag-btn').forEach(b=>b.classList.toggle('active',+b.dataset.mag===lab.mag));
+    labMagBadge.textContent=MAG_LABEL[lab.mag];
+    if(!lab.spec){
+      fieldInner.style.filter='';fieldInner.style.transform='';
+      updateChecks(99);labStatus.textContent='먼저 표본을 골라 올려 주세요.';labStatus.className='lab-status';return;
+    }
+    const maxBlur=MAG_MAXBLUR[lab.mag];
+    const coarseBlur=maxBlur-(lab.coarse/100)*(maxBlur-4);
+    const fineEffect=(lab.coarse/100)*(lab.fine/100)*4;
+    const blur=Math.max(0,coarseBlur-fineEffect);
+    const bright=Math.max(.35,0.55+(lab.bright/100)*0.95-lab.mag*0.09);
+    fieldInner.style.transform='translate('+lab.tx+'px,'+lab.ty+'px) scale('+magF+')';
+    fieldInner.style.filter='blur('+blur.toFixed(2)+'px) brightness('+bright.toFixed(2)+')';
+    const centered=Math.abs(lab.tx)<16&&Math.abs(lab.ty)<16;
+    const focused=blur<0.8;
+    updateChecks(blur,centered,focused);
+    let msg,win=false;
+    if(!centered) msg='표본이 한쪽에 치우쳐 있어요. 화면을 드래그해 가운데로 옮겨 보세요.';
+    else if(bright<0.55) msg='화면이 어두워요. 조리개로 밝기를 올려 볼까요?';
+    else if(blur>7) msg='너무 흐릿해요. 조동나사를 돌려 대강 맞춰 보세요.';
+    else if(blur>3) msg='조금 보이기 시작해요. 계속 초점을 맞춰요.';
+    else if(blur>0.8) msg='거의 다 됐어요! 미동나사로 선명하게 맞춰요.';
+    else if(lab.mag<2) msg='선명해요! 회전판을 돌려 더 높은 배율로 관찰해 볼까요?';
+    else {msg='🎉 관찰 성공! 원생생물을 또렷하게 봤어요!';win=true;}
+    labStatus.textContent=msg;labStatus.className='lab-status'+(win?' win':'');
+    if(win && !labWon){ labWon=true; sfx.chime(); confetti(80); }
+    if(!win) labWon=false;
+  }
+  function updateChecks(blur,centered,focused){
+    function set(id,on){document.getElementById(id).classList.toggle('done',on);}
+    set('chk-load',!!lab.spec);
+    set('chk-center',!!lab.spec&&centered);
+    set('chk-focus',!!lab.spec&&focused);
+    set('chk-high',!!lab.spec&&focused&&lab.mag===2&&centered);
+  }
+  document.querySelectorAll('.slide-chip').forEach(c=>c.addEventListener('click',()=>loadSpec(c.dataset.spec)));
+  document.querySelectorAll('.mag-btn').forEach(b=>b.addEventListener('click',()=>{sfx.click();lab.mag=+b.dataset.mag;updateLabView();}));
+  document.getElementById('bright').addEventListener('input',e=>{lab.bright=+e.target.value;updateLabView();});
+  document.getElementById('resetLab').addEventListener('click',()=>resetLab());
+
+  /* 회전 나사 (드래그로 돌림) */
+  function makeKnob(el,onChange){
+    const face=el.querySelector('.knob-face');
+    const st={raw:0,dragging:false,last:0};
+    const MAX=720;
+    function center(){const r=el.getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2};}
+    function ang(e){const c=center();return Math.atan2(e.clientY-c.y,e.clientX-c.x)*180/Math.PI;}
+    function apply(){face.style.transform='rotate('+st.raw+'deg)';onChange(Math.round(st.raw/MAX*100));}
+    el.addEventListener('pointerdown',e=>{st.dragging=true;st.last=ang(e);try{el.setPointerCapture(e.pointerId);}catch(err){}e.preventDefault();});
+    el.addEventListener('pointermove',e=>{
+      if(!st.dragging)return;
+      let a=ang(e),d=a-st.last;if(d>180)d-=360;if(d<-180)d+=360;
+      st.raw=Math.min(MAX,Math.max(0,st.raw+d));st.last=a;apply();
     });
-  });
-  function resetFocusSim(){
-    stagePos=90; focusDone=false; lastTickAt=stagePos;
-    coarseRot=0; fineRot=0;
-    coarseDial.style.transform='rotate(0deg)';
-    fineDial.style.transform='rotate(0deg)';
-    focusStatus.textContent='화살표(▲▼)를 눌러 나사를 돌려보세요! 조동나사로 크게, 미동나사로 세밀하게';
-    updateFocusView();
+    const up=()=>{st.dragging=false;};
+    el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);
+    el.__set=v=>{st.raw=v/100*MAX;apply();};
+    return el;
+  }
+  const coarseK=makeKnob(document.getElementById('coarseKnob'),v=>{lab.coarse=v;updateLabView();});
+  const fineK=makeKnob(document.getElementById('fineKnob'),v=>{lab.fine=v;updateLabView();});
+
+  /* 표본 화면 드래그로 이동 */
+  (function(){
+    let dragging=false,px=0,py=0;
+    scopeView.addEventListener('pointerdown',e=>{
+      if(!lab.spec)return;dragging=true;px=e.clientX;py=e.clientY;
+      scopeView.classList.add('grab');try{scopeView.setPointerCapture(e.pointerId);}catch(err){}
+    });
+    scopeView.addEventListener('pointermove',e=>{
+      if(!dragging)return;
+      lab.tx=Math.max(-95,Math.min(95,lab.tx+(e.clientX-px)));
+      lab.ty=Math.max(-95,Math.min(95,lab.ty+(e.clientY-py)));
+      px=e.clientX;py=e.clientY;updateLabView();
+    });
+    const end=()=>{dragging=false;scopeView.classList.remove('grab');};
+    scopeView.addEventListener('pointerup',end);
+    scopeView.addEventListener('pointercancel',end);
+  })();
+
+  function resetLab(){
+    lab.spec=null;lab.coarse=0;lab.fine=0;lab.mag=0;lab.bright=55;lab.tx=0;lab.ty=0;labWon=false;
+    document.getElementById('bright').value=55;
+    specGroup.style.display='none';specHaecam.style.display='none';specJipsin.style.display='none';
+    viewEmpty.style.display='';labMagBadge.style.display='none';panHint.style.display='none';
+    document.querySelectorAll('.slide-chip').forEach(c=>c.classList.remove('active'));
+    coarseK.__set(0);fineK.__set(0);
+    updateLabView();
   }
 
   /* ---------- scene 12: 패들렛 메모 (AI 챗봇 웹앱에서 알게 된 내용을 직접 입력) ---------- */
@@ -1043,8 +1180,8 @@
     if(i===5) resetZoom();     // 확대 화면 (항상 초기화)
     if(i===6){ sfx.chime(); confetti(60); }                       // 정체 공개
     if(i===7){ setTimeout(()=>{sfx.chime();confetti(120);},150); } // 학습 문제
-    if(i===9) resetHotspots();   // 현미경 부품 라벨링
-    if(i===10) resetFocusSim();  // 초점 맞추기
+    if(i===9) resetParts();   // 현미경 부품 탐색
+    if(i===10) resetLab();    // 가상 실습실
     if(i===12) resetActivity3(); // 패들렛 초기화
     if(i===13){ setTimeout(()=>{sfx.chime();confetti(140);},150); } // 탐구정리
   }
@@ -1064,7 +1201,7 @@
   // init
   prevBtn.disabled=true;
   applyLevel();
-  updateFocusView();
+  updateLabView();
 })();
 </script>
 </body>
